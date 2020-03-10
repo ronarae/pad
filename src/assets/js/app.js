@@ -11,6 +11,7 @@ const CONTROLLER_SIDEBAR = "sidebar";
 const CONTROLLER_LOGIN = "login";
 const CONTROLLER_LOGOUT = "logout";
 const CONTROLLER_WELCOME = "welcome";
+const CONTROLLER_REGISTER = "register";
 
 const sessionManager = new SessionManager();
 const networkManager = new NetworkManager();
@@ -55,6 +56,11 @@ class App {
                 this.handleLogout();
                 break;
 
+            case CONTROLLER_REGISTER:
+                this.setCurrentController(name);
+                this.isLoggedIn(() => new WelcomeController, () => new RegisterController());
+                break;
+                
             case CONTROLLER_WELCOME:
                 this.setCurrentController(name);
                 this.isLoggedIn(() => new WelcomeController, () => new LoginController());
