@@ -12,6 +12,7 @@ const CONTROLLER_LOGIN = "login";
 const CONTROLLER_LOGOUT = "logout";
 const CONTROLLER_WELCOME = "welcome";
 const CONTROLLER_REGISTER = "register";
+const CONTROLLER_CONTACTS = "contacts";
 
 const sessionManager = new SessionManager();
 const networkManager = new NetworkManager();
@@ -46,6 +47,11 @@ class App {
                 new NavbarController();
                 break;
 
+            case CONTROLLER_CONTACTS:
+                this.setCurrentController(name);
+                this.isLoggedIn(() => new ContactController(), () => new LoginController());
+                break;
+
             case CONTROLLER_LOGIN:
                 this.setCurrentController(name);
                 this.isLoggedIn(() => new WelcomeController(), () => new LoginController());
@@ -58,7 +64,7 @@ class App {
 
             case CONTROLLER_REGISTER:
                 this.setCurrentController(name);
-                this.isLoggedIn(() => new WelcomeController, () => new RegisterController());
+                this.isLoggedIn(() => new RegisterController, () => new RegisterController());
                 break;
                 
             case CONTROLLER_WELCOME:

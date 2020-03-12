@@ -6,14 +6,14 @@
 class NavbarController {
     constructor() {
         $.get("views/navbar.html")
-            .done((data) => this.setup(data))
+            .done((htmlData) => this.setup(htmlData))
             .fail(() => this.error());
     }
 
     //Called when the navbar.html has been loaded
-    setup(data) {
+    setup(htmlData) {
         //Load the sidebar-content into memory
-        const sidebarView = $(data);
+        const sidebarView = $(htmlData);
 
         //Find all anchors and register the click-event
         sidebarView.find("a").on("click", this.handleClickMenuItem);
@@ -37,6 +37,6 @@ class NavbarController {
 
     //Called when the login.html failed to load
     error() {
-        $(".content").html("Failed to load the sidebar!");
+        $(".content").html("Failed to load the navbar!");
     }
 }

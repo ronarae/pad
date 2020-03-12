@@ -1,28 +1,25 @@
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-12 text-center m-2">
-      <h1 class="mt-5">Account aanmaken</h1>
-      <p class="lead">Hier kunt u gegevens invullen</p>
-      <!--    register form     -->
-      <form>
-          <div class="form-group col-md-6 offset-3">
-            <label for="inputVoornaam">Voornaam</label>
-            <input type="text" class="form-control" id="inputVoornaam" placeholder="Voornaam">
-          </div>
-          <div class="form-group col-md-6 offset-3">
-            <label for="inputAchternaam">Achternaam</label>
-            <input type="text" class="form-control" id="inputAchternaam" placeholder="Achternaam">
-          </div>
-          <div class="form-group col-md-6 offset-3">
-            <label for="inputEmail">Email</label>
-            <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-          </div>
-          <div class="form-group col-md-6 offset-3">
-            <label for="inputPassword">Password</label>
-            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-          </div>
-        <button type="submit" class="btn btn-primary">Sign in</button>
-      </form>
+<div class="row justify-content-md-center">
+    <div class="col-sm-4 m-3">
+        <h2 class="mb-3">Account aanmaken</h2>
+
+        <form class="login-form">
+            <div class="form-group .needs-validation">
+                <label for="inputUsername">Gebruikersnaam</label>
+                <input type="text" name="username" class="form-control" id="inputUsername" placeholder="Gebruikersnaam">
+            </div>
+            <div class="form-group">
+                <label for="inputEmailaddress">Emailadres</label>
+                <input type="email" name="emailaddress" class="form-control" id="inputEmailaddress"
+                       placeholder="Emailadres">
+            </div>
+            <div class="form-group">
+                <label for="inputPassword">Wachtwoord</label>
+                <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Wachtwoord">
+            </div>
+
+            <div class="error mb-3 text-danger"></div>
+
+            <button type="submit" class="btn btn-primary">Registreren</button>
+        </form>
     </div>
-  </div>
 </div>

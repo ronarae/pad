@@ -63,6 +63,39 @@ app.post("/room_example", (req, res) => {
     );
 
 });
+//Gebruiker toevoegen aan DB
+app.post("/register", (req, res) => {
+
+    db.handleQuery(connectionPool, {
+            query: "INSERT INTO user(username, emailaddress, password) VALUES (?, ?, ?)",
+            values: [req.body.username, req.body.emailaddress, req.body.password]
+        }, (data) => {
+            if(data.insertId) {
+                res.status(httpOkCode).json({id: data.insertId});
+            } else {
+                res.status(badRequestCode).json({reason: "Something went wrong, no record inserted"})
+            }
+        }, (err) => res.status(badRequestCode).json({reason: err})
+    );
+});
+
+//Contact toevoegen aan DB
+app.post("/contact", (req, res) => {
+
+    db.handleQuery(connectionPool, {
+        query: "INSERT INTO contact(firstname, surname, address, emailaddress, phonenumber) VALUES (?, ?, ?, ?, ?)",
+        values: [req.body.firstname, req.body.surname, req.body.address, req.body.emailaddress, req.body.phonenumber]
+    }, (data) => {
+            if(data.insertId) {
+                res.status(httpOkCode).json({id: data.insertId});
+            } else {
+                res.status(badRequestCode).json({reason: "Something went wrong, no record inserted"})
+            }
+        }, (err) => res.status(badRequestCode).json({reason: err})
+    );
+});
+
+
 //------- END ROUTES -------
 
 module.exports = app;
