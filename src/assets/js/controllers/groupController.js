@@ -1,18 +1,15 @@
 /**
  * @author Yazan Mousa
- * this is class is resposible for makeing a group for users
+ * this is class is resposible for making a group for users
  */
 
 class GroupController {
     constructor() {
-        this.groupRepository = new GroupRepository();
+        this.groupRepository = new groupRepository();
         $.get("views/group.html")
             .done((htmlData) => this.setup(htmlData))
             .fail(() => this.error());
-
-        
     }
-
 
     setup(htmlData) {
         //toevoegen html aan .content div
@@ -20,11 +17,9 @@ class GroupController {
 
         $(".content").empty().append(this.createGroupView);
         this.createGroupView.find(".btn").on("click", (event) => this.onAddEvent(event))
-        
-
     }
-    async onAddEvent(event) {
 
+    async onAddEvent(event) {
         event.preventDefault();
 
         //verzamelen van form gegevens
@@ -35,21 +30,16 @@ class GroupController {
 
         this.groupRepository.create(name);
         try{
-            const groupId = await this.groupRepository.create(name);
-            console.log(groupId);
+            const eventId = await this.groupRepository.create(name);
+            console.log(eventId);
             app.loadController(CONTROLLER_WELCOME);
         } catch (e) {
             console.log(e);
-            
+            //TODO: show appropriate error to user
         }
-
-       
-
-
     }
+
     error() {
-       $(".content").html("Failed to load content")
+        $(".content").html("Failed to load content")
     }
-
-
 }

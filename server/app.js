@@ -94,11 +94,12 @@ app.post("/contact", (req, res) => {
         }, (err) => res.status(badRequestCode).json({reason: err})
     );
 });
-// Groep toevoegen aan DB
 
+// Groep toevoegen aan DB
 app.post("/group", (req, res) => {
+
     db.handleQuery(connectionPool, {
-        query: "INSERT INTO pad_bsc_8_dev.`group` (name, userId) VALUES (?,?)",
+        query: "INSERT INTO group(name, userId) VALUES (?,?)",
         values: [req.body.name, req.body.userId]
     }, (data) => {
             if (data.insertId) {
@@ -108,13 +109,7 @@ app.post("/group", (req, res) => {
             }
         }, (err) => res.status(badRequestCode).json({reason: err})
     );
-    });
-
-
-
-
+});
 
 //------- END ROUTES -------
-
 module.exports = app;
-

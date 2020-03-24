@@ -61,7 +61,6 @@ class App {
                 this.isLoggedIn(() => new GroupController(), () => new LoginController());
                 break;
 
-
             case CONTROLLER_LOGIN:
                 this.setCurrentController(name);
                 this.isLoggedIn(() => new WelcomeController(), () => new LoginController());
