@@ -13,6 +13,8 @@ const CONTROLLER_LOGOUT = "logout";
 const CONTROLLER_WELCOME = "welcome";
 const CONTROLLER_REGISTER = "register";
 const CONTROLLER_CONTACTS = "contacts";
+const CONTROLLER_GROUP = "group";
+
 
 const sessionManager = new SessionManager();
 const networkManager = new NetworkManager();
@@ -43,6 +45,8 @@ class App {
         }
 
         switch (name) {
+
+
             case CONTROLLER_SIDEBAR:
                 new NavbarController();
                 break;
@@ -51,6 +55,12 @@ class App {
                 this.setCurrentController(name);
                 this.isLoggedIn(() => new ContactController(), () => new LoginController());
                 break;
+
+            case CONTROLLER_GROUP:
+                this.setCurrentController(name);
+                this.isLoggedIn(() => new GroupController(), () => new LoginController());
+                break;
+
 
             case CONTROLLER_LOGIN:
                 this.setCurrentController(name);
