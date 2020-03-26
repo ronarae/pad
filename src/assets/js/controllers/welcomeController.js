@@ -26,7 +26,6 @@ class WelcomeController {
 
         this.fetchRooms(1256);
     }
-
     /**
      * async function that retrieves a kamer by its id via repository
      * @param roomId the room id to retrieve
@@ -45,6 +44,7 @@ class WelcomeController {
             exampleResponse.text(e);
         }
     }
+
 
     //Called when the login.html fails to load
     error() {

@@ -121,5 +121,19 @@ app.post("/group", (req, res) => {
     );
 });
 
+// Contacten weergeven vanaf DB -WIP
+app.post("/contactPage", (req, res) => {
+
+    db.handleQuery(connectionPool, {
+            query: "SELECT firstname FROM contact WHERE id = ?",
+            values: [req.body.firstname]
+        }, (data) => {
+            //just give all data back as json
+            res.status(httpOkCode).json(data);
+        }, (err) => res.status(badRequestCode).json({reason: err})
+    );
+
+});
+
 //------- END ROUTES -------
 module.exports = app;

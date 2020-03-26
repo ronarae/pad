@@ -17,31 +17,32 @@ class ContactPageController {
     setup(htmlData) {
         this.contactPageView = $(htmlData);
 
+        this.contactPageView.find("#firstname").html(sessionManager.get("firstname"));
+
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.contactPageView);
 
-        this.contactPageView.find(".btn").on("click", (event) => this.onAddEvent(event))
-
+        //this.fetchRooms(121);
     }
 
-    async onAddEvent(event) {
-        event.preventDefault();
+    async fetchRooms(contact_id) {
+        const exampleResponse = this.contactPageView.find(".example-response");
+        try {
+            //await keyword 'stops' code until data is returned - can only be used in async function
+            const roomData = await this.contactPageRepository.get(contact_id);
 
-        console.log(name);
-        // versturen naar repostory
-
-        this.contactPageRepository.create(name);
-        try{
-            const eventId = await this.contactPageRepository.create(name);
-            console.log(eventId);
-            app.loadController(CONTROLLER_CONTACT_PAGE);
+            exampleResponse.text(JSON.stringify(roomData, null, 4));
         } catch (e) {
-            console.log(e);
-            //TODO: show appropriate error to user
+            console.log("error while fetching rooms", e);
+
+            //for now just show every error on page, normally not all errors are appropriate for user
+            exampleResponse.text(e);
         }
     }
 
-    //Called when the login.html fails to load
+
+
+    //Called when the contactPage.html fails to load
     error() {
         $(".content").html("Failed to load content!");
     }
