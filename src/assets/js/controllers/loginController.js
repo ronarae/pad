@@ -39,7 +39,6 @@ class LoginController {
         try{
             //await keyword 'stops' code until data is returned - can only be used in async function
             const user = await this.userRepository.login(username, password);
-
             sessionManager.set("username", user.username);
             app.loadController(CONTROLLER_WELCOME);
 

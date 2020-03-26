@@ -1,6 +1,6 @@
 /**
  * RegisterController is responsible for all Register related actions
- * @author Niels Roeleveld
+ * @author Niels Roeleveld & Wing Fung Lam
  */
 
 class RegisterController {
@@ -28,17 +28,27 @@ class RegisterController {
         const username = this.registerView.find("#inputUsername").val();
         const emailaddress = this.registerView.find("#inputEmailaddress").val();
         const password = this.registerView.find("#inputPassword").val();
+        let inputCheck = false;
 
-        console.log(`${username} - ${emailaddress} - ${password}`);
 
-        //Versturen naar repository
-        try {
-            const eventId = await this.registerRepository.create(username, emailaddress, password);
-            console.log(eventId);
-            app.loadController(CONTROLLER_WELCOME);
-        } catch (e) {
-            console.log(e);
-            //TODO: show appropriate error to user
+        if(username.length == "" || emailaddress.length == ""){
+            alert("Geen lege velden achterlaten");
+        }else{
+            //Versturen naar repository
+            try {
+                console.log(`${username} - ${emailaddress} - ${password}` + inputCheck);
+                const eventId = await this.registerRepository.create(username, emailaddress, password);
+                console.log(eventId);
+                app.loadController(CONTROLLER_WELCOME);
+            } catch (e) {
+                if(e.code === 401) {
+                    this.registerView
+                        .find(".error")
+                        .html(e.reason);
+                } else {
+                    console.log(e);
+                }
+            }
         }
     }
 
