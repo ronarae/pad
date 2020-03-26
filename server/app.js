@@ -36,12 +36,12 @@ app.post("/user/login", (req, res) => {
     const password = req.body.password;
 
     db.handleQuery(connectionPool, {
-        query: "SELECT username, password FROM user WHERE username = ? AND password = ?",
+        query: "SELECT user_id, username, password FROM user WHERE username = ? AND password = ?",
         values: [username, password]
     }, (data) => {
         if (data.length === 1) {
             //return just the username for now, never send password back!
-            res.status(httpOkCode).json({"username": data[0].username});
+            res.status(httpOkCode).json({"username": data[0].username, "user_id": data[0].user_id});
         } else {
             //wrong username
             res.status(authorizationErrCode).json({reason: "Wrong username or password"});
@@ -63,27 +63,18 @@ app.post("/room_example", (req, res) => {
     );
 
 });
+
 //Gebruiker toevoegen aan DB
 app.post("/register", (req, res) => {
 
     db.handleQuery(connectionPool, {
-            query: "SELECT username, emailaddress FROM user WHERE username = ? AND emailaddress = ?",
-            values: [req.body.username, req.body.password]
+            query: "INSERT INTO user(username, emailaddress, password) VALUES (?, ?, ?)",
+            values: [req.body.username, req.body.emailaddress, req.body.password]
         }, (data) => {
-            if (data.length === 0) {
-                db.handleQuery(connectionPool, {
-                        query: "INSERT INTO user(username, emailaddress, password) VALUES (?, ?, ?)",
-                        values: [req.body.username, req.body.emailaddress, req.body.password]
-                    }, (data) => {
-                        if (data.insertId) {
-                            res.status(httpOkCode).json({id: data.insertId});
-                        } else {
-                            res.status(badRequestCode).json({reason: "Something went wrong, no record inserted"})
-                        }
-                    }, (err) => res.status(badRequestCode).json({reason: err})
-                );
+            if(data.insertId) {
+                res.status(httpOkCode).json({id: data.insertId});
             } else {
-                res.status(authorizationErrCode).json({reason: "Already exist username or password"});
+                res.status(badRequestCode).json({reason: "Something went wrong, no record inserted"})
             }
         }, (err) => res.status(badRequestCode).json({reason: err})
     );
@@ -93,10 +84,10 @@ app.post("/register", (req, res) => {
 app.post("/contact", (req, res) => {
 
     db.handleQuery(connectionPool, {
-            query: "INSERT INTO contact(firstname, surname, address, emailaddress, phonenumber) VALUES (?, ?, ?, ?, ?)",
-            values: [req.body.firstname, req.body.surname, req.body.address, req.body.emailaddress, req.body.phonenumber]
-        }, (data) => {
-            if (data.insertId) {
+        query: "INSERT INTO contact(firstname, surname, address, emailaddress, phonenumber) VALUES (?, ?, ?, ?, ?)",
+        values: [req.body.firstname, req.body.surname, req.body.address, req.body.emailaddress, req.body.phonenumber]
+    }, (data) => {
+            if(data.insertId) {
                 res.status(httpOkCode).json({id: data.insertId});
             } else {
                 res.status(badRequestCode).json({reason: "Something went wrong, no record inserted"})
@@ -104,14 +95,13 @@ app.post("/contact", (req, res) => {
         }, (err) => res.status(badRequestCode).json({reason: err})
     );
 });
-
 // Groep toevoegen aan DB
-app.post("/group", (req, res) => {
 
+app.post("/group", (req, res) => {
     db.handleQuery(connectionPool, {
-            query: "INSERT INTO group(name, userId) VALUES (?,?)",
-            values: [req.body.name, req.body.userId]
-        }, (data) => {
+        query: "INSERT INTO pad_bsc_8_dev.`group` (name, user_id) VALUES (?,?)",
+        values: [req.body.name, req.body.user_id]
+    }, (data) => {
             if (data.insertId) {
                 res.status(httpOkCode).json({id: data.insertId});
             } else {
@@ -119,7 +109,12 @@ app.post("/group", (req, res) => {
             }
         }, (err) => res.status(badRequestCode).json({reason: err})
     );
-});
+    });
+
+
+
+
+
 
 // Contacten weergeven vanaf DB -WIP
 app.post("/contactPage", (req, res) => {
@@ -136,4 +131,6 @@ app.post("/contactPage", (req, res) => {
 });
 
 //------- END ROUTES -------
+
 module.exports = app;
+
