@@ -13,5 +13,4 @@ class contactRepository {
                 address: address
             });
     }
-
 }

@@ -13,6 +13,7 @@ const CONTROLLER_LOGOUT = "logout";
 const CONTROLLER_WELCOME = "welcome";
 const CONTROLLER_REGISTER = "register";
 const CONTROLLER_CONTACTS = "contacts";
+const CONTROLLER_CONTACT_PAGE = "contactPage";
 const CONTROLLER_GROUP = "group";
 
 
@@ -56,11 +57,15 @@ class App {
                 this.isLoggedIn(() => new ContactController(), () => new LoginController());
                 break;
 
+            case CONTROLLER_CONTACT_PAGE:
+                this.setCurrentController(name);
+                this.isLoggedIn(() => new ContactPageController(), () => new LoginController());
+                break;
+
             case CONTROLLER_GROUP:
                 this.setCurrentController(name);
                 this.isLoggedIn(() => new GroupController(), () => new LoginController());
                 break;
-
 
             case CONTROLLER_LOGIN:
                 this.setCurrentController(name);
