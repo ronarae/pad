@@ -3,9 +3,9 @@ class GroupRepository {
         this.route = "/group";
     }
 
-    async create(name){
+    async create(name, user_id){
         return await networkManager
-            .doRequest(this.route, {name: name, userId: 1} );
+            .doRequest(this.route, {name: name, user_id: user_id} );
 
     }
 

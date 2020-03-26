@@ -36,12 +36,12 @@ app.post("/user/login", (req, res) => {
     const password = req.body.password;
 
     db.handleQuery(connectionPool, {
-        query: "SELECT username, password FROM user WHERE username = ? AND password = ?",
+        query: "SELECT user_id, username, password FROM user WHERE username = ? AND password = ?",
         values: [username, password]
     }, (data) => {
         if (data.length === 1) {
             //return just the username for now, never send password back!
-            res.status(httpOkCode).json({"username": data[0].username});
+            res.status(httpOkCode).json({"username": data[0].username, "user_id": data[0].user_id});
         } else {
             //wrong username
             res.status(authorizationErrCode).json({reason: "Wrong username or password"});
@@ -63,6 +63,7 @@ app.post("/room_example", (req, res) => {
     );
 
 });
+
 //Gebruiker toevoegen aan DB
 app.post("/register", (req, res) => {
 
@@ -98,8 +99,8 @@ app.post("/contact", (req, res) => {
 
 app.post("/group", (req, res) => {
     db.handleQuery(connectionPool, {
-        query: "INSERT INTO pad_bsc_8_dev.`group` (name, userId) VALUES (?,?)",
-        values: [req.body.name, req.body.userId]
+        query: "INSERT INTO pad_bsc_8_dev.`group` (name, user_id) VALUES (?,?)",
+        values: [req.body.name, req.body.user_id]
     }, (data) => {
             if (data.insertId) {
                 res.status(httpOkCode).json({id: data.insertId});
@@ -109,6 +110,7 @@ app.post("/group", (req, res) => {
         }, (err) => res.status(badRequestCode).json({reason: err})
     );
     });
+
 
 
 
