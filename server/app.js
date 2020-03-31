@@ -84,8 +84,8 @@ app.post("/register", (req, res) => {
 app.post("/contact", (req, res) => {
 
     db.handleQuery(connectionPool, {
-        query: "INSERT INTO contact(firstname, surname, address, emailaddress, phonenumber) VALUES (?, ?, ?, ?, ?)",
-        values: [req.body.firstname, req.body.surname, req.body.address, req.body.emailaddress, req.body.phonenumber]
+        query: "INSERT INTO contact(firstname, surname, address, emailaddress, phonenumber, user_id) VALUES (?, ?, ?, ?, ?, ?)",
+        values: [req.body.firstname, req.body.surname, req.body.address, req.body.emailaddress, req.body.phonenumber, req.body.user_id]
     }, (data) => {
             if(data.insertId) {
                 res.status(httpOkCode).json({id: data.insertId});
@@ -113,21 +113,17 @@ app.post("/group", (req, res) => {
 
 
 
-
-
-
 // Contacten weergeven vanaf DB -WIP
 app.post("/contactPage", (req, res) => {
 
     db.handleQuery(connectionPool, {
-            query: "SELECT firstname FROM contact WHERE id = ?",
-            values: [req.body.firstname]
+            query: "SELECT * FROM contact WHERE user_id = ?",
+            values: [req.body.user_id]
         }, (data) => {
             //just give all data back as json
             res.status(httpOkCode).json(data);
         }, (err) => res.status(badRequestCode).json({reason: err})
     );
-
 });
 
 //------- END ROUTES -------

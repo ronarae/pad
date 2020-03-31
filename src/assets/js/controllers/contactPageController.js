@@ -7,7 +7,7 @@
 
 class ContactPageController {
     constructor() {
-       this.contactPageRepository = new ContactPageRepository();
+       this.contactRepository = new ContactRepository();
 
         $.get("views/contactPage.html")
             .done((htmlData) => this.setup(htmlData))
@@ -17,30 +17,41 @@ class ContactPageController {
     setup(htmlData) {
         this.contactPageView = $(htmlData);
 
-        this.contactPageView.find("#firstname").html(sessionManager.get("firstname"));
+        //Set the name in the view from the session
+        this.contactPageView.find(".name").html(sessionManager.get("username"));
 
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.contactPageView);
 
-        //this.fetchRooms(121);
+        this.getAll();
     }
 
-    async fetchRooms(contact_id) {
-        const exampleResponse = this.contactPageView.find(".example-response");
-        try {
-            //await keyword 'stops' code until data is returned - can only be used in async function
-            const roomData = await this.contactPageRepository.get(contact_id);
+    async getAll() {
+        const user_id = sessionManager.get("user_id");
 
-            exampleResponse.text(JSON.stringify(roomData, null, 4));
+        try {
+            const contactData = await this.contactRepository.getAll(user_id);
+
+            const contactTable = $("#contacts");
+            for (let i = 0; i < contactData.length; i++) {
+                let nextContact = "<tr>";
+                nextContact += `<td>${contactData[i].firstname}</td>`;
+                nextContact += `<td>${contactData[i].surname}</td>`;
+                nextContact += `<td>${contactData[i].address}</td>`;
+                nextContact += `<td>${contactData[i].emailaddress}</td>`;
+                nextContact += `<td>${contactData[i].phonenumber}</td>`;
+                nextContact += `<td><a class="btn btn-success" href="">Edit</a></td>`;
+                nextContact += "</tr>";
+
+                contactTable.append(nextContact);
+            }
         } catch (e) {
             console.log("error while fetching rooms", e);
 
             //for now just show every error on page, normally not all errors are appropriate for user
-            exampleResponse.text(e);
+            contactData.text(e)
         }
     }
-
-
 
     //Called when the contactPage.html fails to load
     error() {
