@@ -15,11 +15,6 @@ class ContactRepository {
             });
     }
 
-    // async getAll(user_id) {
-    //     return await networkManager
-    //         .doRequest(`${this.route}s`, {user_id: user_id});
-    // }
-
     async getAll(user_id) {
         return await networkManager
             .doRequest("/contactPage", {user_id: user_id});

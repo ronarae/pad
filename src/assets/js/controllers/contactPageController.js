@@ -26,6 +26,7 @@ class ContactPageController {
         this.getAll();
     }
 
+    //om alle toegevoegde contacten op te halen
     async getAll() {
         const user_id = sessionManager.get("user_id");
 
