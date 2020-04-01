@@ -111,13 +111,24 @@ app.post("/group", (req, res) => {
     );
     });
 
-
-
-// Contacten weergeven vanaf DB -WIP
+// Contacten weergeven
 app.post("/contactPage", (req, res) => {
 
     db.handleQuery(connectionPool, {
             query: "SELECT * FROM contact WHERE user_id = ?",
+            values: [req.body.user_id]
+        }, (data) => {
+            //just give all data back as json
+            res.status(httpOkCode).json(data);
+        }, (err) => res.status(badRequestCode).json({reason: err})
+    );
+});
+
+// Groepen weergeven
+app.post("/groupPage", (req, res) => {
+
+    db.handleQuery(connectionPool, {
+            query: "SELECT * FROM pad_bsc_8_dev.`group` WHERE user_id = ?",
             values: [req.body.user_id]
         }, (data) => {
             //just give all data back as json

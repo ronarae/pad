@@ -1,6 +1,6 @@
 /**
  * ContactPage Controller
- * update contact and contact
+ * Toegevoegde contact kunnen bekijken
  *
  * @author Rona Rieza
  */
