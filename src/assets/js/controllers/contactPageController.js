@@ -63,7 +63,7 @@ class ContactPageController {
         console.log("Opslaan");
         event.preventDefault();
         //Verzamelen van form gegevens
-        const id = this.contactPageView.find("#editbutton").val();
+        const id = this.contactRepository.find("#editbutton").val();
         const firstname = this.contactPageView.find("#inputFirstname").val();
         const surname = this.contactPageView.find("#inputSurname").val();
         const phonenumber = this.contactPageView.find("#inputPhonenumber").val();
