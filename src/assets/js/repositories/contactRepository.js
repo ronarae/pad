@@ -19,5 +19,17 @@ class ContactRepository {
         return await networkManager
             .doRequest("/contactPage", {user_id: user_id});
     }
+
+    async update(firstname, surname, address, emailaddress, phonenumber,id){
+        return await networkManager
+            .doRequest("/contactPage/update", {
+                firstname: firstname,
+                surname: surname,
+                phonenumber: phonenumber,
+                emailaddress: emailaddress,
+                address: address,
+                id: id
+            });
+    }
 }
 

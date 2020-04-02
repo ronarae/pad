@@ -7,7 +7,7 @@
 
 class ContactPageController {
     constructor() {
-       this.contactRepository = new ContactRepository();
+        this.contactRepository = new ContactRepository();
 
         $.get("views/contactPage.html")
             .done((htmlData) => this.setup(htmlData))
@@ -19,6 +19,10 @@ class ContactPageController {
 
         //Set the name in the view from the session
         this.contactPageView.find(".name").html(sessionManager.get("username"));
+
+        //Update the contact's values
+        this.contactPageView.find("#modal-submit").on("click", (event) => this.update(event))
+
 
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.contactPageView);
@@ -41,7 +45,7 @@ class ContactPageController {
                 nextContact += `<td>${contactData[i].address}</td>`;
                 nextContact += `<td>${contactData[i].emailaddress}</td>`;
                 nextContact += `<td>${contactData[i].phonenumber}</td>`;
-                nextContact += `<td><a class="btn btn-success" href="">Edit</a></td>`;
+                nextContact += `<td><a class="btn btn-success" data-toggle="modal" data-target="#editModal" id="editbutton" value="${contactData[i].contact_id}" href="">Edit</a></td>`;
                 nextContact += "</tr>";
 
                 contactTable.append(nextContact);
@@ -51,6 +55,27 @@ class ContactPageController {
 
             //for now just show every error on page, normally not all errors are appropriate for user
             contactData.text(e)
+        }
+    }
+
+    //TODO update contacts' values by getting the appropriated contact's id,
+    async update(event) {
+        console.log("Opslaan");
+        event.preventDefault();
+        //Verzamelen van form gegevens
+        const id = this.contactPageView.find("#editbutton").val();
+        const firstname = this.contactPageView.find("#inputFirstname").val();
+        const surname = this.contactPageView.find("#inputSurname").val();
+        const phonenumber = this.contactPageView.find("#inputPhonenumber").val();
+        const emailaddress = this.contactPageView.find("#inputEmailaddress").val();
+        const address = this.contactPageView.find("#inputAddress").val();
+        console.log("input: "+ id, firstname,surname, phonenumber, emailaddress, address);
+        try {
+            const userUpdate = await this.contactRepository.update(firstname,surname, phonenumber, emailaddress, address, id);
+            console.log(userUpdate);
+
+        } catch (e) {
+            console.log(e);
         }
     }
 
