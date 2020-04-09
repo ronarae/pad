@@ -110,7 +110,19 @@ app.post("/group", (req, res) => {
         }, (err) => res.status(badRequestCode).json({reason: err})
     );
     });
+//Groepen tonenen
+app.post("/group", (req, res) => {
 
+    db.handleQuery(connectionPool, {
+            query: "SELECT groupId, name FROM pad_bsc_8_dev.`group` WHERE user_id = ?",
+            values: [req.body.user_id]
+        }, (data) => {
+            //just give all data back as json
+            res.status(httpOkCode).json(data);
+        }, (err) => res.status(badRequestCode).json({reason: err})
+    );
+
+});
 
 
 
