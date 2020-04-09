@@ -15,6 +15,7 @@ const CONTROLLER_REGISTER = "register";
 const CONTROLLER_CONTACTS = "contacts";
 const CONTROLLER_CONTACT_PAGE = "contactPage";
 const CONTROLLER_GROUP = "group";
+const CONTROLLER_GROUP_PAGE = "groupPage";
 
 
 const sessionManager = new SessionManager();
@@ -65,6 +66,11 @@ class App {
             case CONTROLLER_GROUP:
                 this.setCurrentController(name);
                 this.isLoggedIn(() => new GroupController(), () => new LoginController());
+                break;
+
+            case CONTROLLER_GROUP_PAGE:
+                this.setCurrentController(name);
+                this.isLoggedIn(() => new GroupPageController(), () => new LoginController());
                 break;
 
             case CONTROLLER_LOGIN:

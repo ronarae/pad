@@ -5,7 +5,7 @@
 
 class ContactController {
     constructor() {
-        this.contactRepository = new contactRepository;
+        this.contactRepository = new ContactRepository;
 
         $.get("views/contact.html")
             .done((htmlData) => this.setup(htmlData))
@@ -30,12 +30,13 @@ class ContactController {
         const phonenumber = this.contactView.find("#inputPhonenumber").val();
         const emailaddress = this.contactView.find("#inputEmailaddress").val();
         const address = this.contactView.find("#inputAddress").val();
+        const user_id = sessionManager.get("user_id");
 
         console.log(`${firstname} - ${surname} - ${phonenumber} - ${emailaddress} - ${address}`);
 
         //Versturen naar repository
         try {
-            const eventId = await this.contactRepository.create(firstname, surname, phonenumber, emailaddress, address);
+            const eventId = await this.contactRepository.create(firstname, surname, phonenumber, emailaddress, address, user_id);
             console.log(eventId);
             app.loadController(CONTROLLER_WELCOME);
         } catch (e) {
@@ -48,3 +49,4 @@ class ContactController {
         $(".content").html("Failed to load content")
     }
 }
+

@@ -84,8 +84,8 @@ app.post("/register", (req, res) => {
 app.post("/contact", (req, res) => {
 
     db.handleQuery(connectionPool, {
-        query: "INSERT INTO contact(firstname, surname, address, emailaddress, phonenumber) VALUES (?, ?, ?, ?, ?)",
-        values: [req.body.firstname, req.body.surname, req.body.address, req.body.emailaddress, req.body.phonenumber]
+        query: "INSERT INTO contact(firstname, surname, address, emailaddress, phonenumber, user_id) VALUES (?, ?, ?, ?, ?, ?)",
+        values: [req.body.firstname, req.body.surname, req.body.address, req.body.emailaddress, req.body.phonenumber, req.body.user_id]
     }, (data) => {
             if(data.insertId) {
                 res.status(httpOkCode).json({id: data.insertId});
@@ -110,23 +110,46 @@ app.post("/group", (req, res) => {
         }, (err) => res.status(badRequestCode).json({reason: err})
     );
     });
-//Groepen tonenen
-app.post("/group", (req, res) => {
+
+// Contacten weergeven
+app.post("/contactPage", (req, res) => {
 
     db.handleQuery(connectionPool, {
-            query: "SELECT groupId, name FROM pad_bsc_8_dev.`group` WHERE user_id = ?",
+            query: "SELECT * FROM contact WHERE user_id = ?",
             values: [req.body.user_id]
         }, (data) => {
             //just give all data back as json
             res.status(httpOkCode).json(data);
         }, (err) => res.status(badRequestCode).json({reason: err})
     );
-
 });
 
+//Contact wijzigen
+//TODO query for update done, but not getting the apropiate id
+// app.post("/contactPage/update", (req, res) => {
+//
+//     db.handleQuery(connectionPool, {
+//             query: "UPDATE contact SET firstname = ?, surname = ? , address =?, emailaddress = ? , phonenumber = ? WHERE contact_id = ?",
+//             values: [req.body.firstname,req.body.surname,req.body.address,req.body.emailaddres,req.body.phonenumber, req.body.id]
+//         }, (data) => {
+//             //just give all data back as json
+//             res.status(httpOkCode).json(data);
+//         }, (err) => res.status(badRequestCode).json({reason: err})
+//     );
+// });
 
+// Groepen weergeven
+app.post("/groupPage", (req, res) => {
 
-
+    db.handleQuery(connectionPool, {
+            query: "SELECT * FROM pad_bsc_8_dev.`group` WHERE user_id = ?",
+            values: [req.body.user_id]
+        }, (data) => {
+            //just give all data back as json
+            res.status(httpOkCode).json(data);
+        }, (err) => res.status(badRequestCode).json({reason: err})
+    );
+});
 
 //------- END ROUTES -------
 

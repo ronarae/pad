@@ -9,4 +9,9 @@ class GroupRepository {
 
     }
 
+    async getAll(user_id) {
+        return await networkManager
+            .doRequest("/groupPage", {user_id: user_id});
+    }
+
 }
