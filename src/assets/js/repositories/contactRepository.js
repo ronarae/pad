@@ -31,5 +31,12 @@ class ContactRepository {
                 id: id
             });
     }
+
+    async delete(contact_id){
+        return await networkManager
+            .doRequest("/contactPage/delete", {
+                contact_id: contact_id
+            });
+    }
 }
 

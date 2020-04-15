@@ -125,18 +125,30 @@ app.post("/contactPage", (req, res) => {
 });
 
 //Contact wijzigen
-//TODO query for update done, but not getting the apropiate id
-// app.post("/contactPage/update", (req, res) => {
-//
-//     db.handleQuery(connectionPool, {
-//             query: "UPDATE contact SET firstname = ?, surname = ? , address =?, emailaddress = ? , phonenumber = ? WHERE contact_id = ?",
-//             values: [req.body.firstname,req.body.surname,req.body.address,req.body.emailaddres,req.body.phonenumber, req.body.id]
-//         }, (data) => {
-//             //just give all data back as json
-//             res.status(httpOkCode).json(data);
-//         }, (err) => res.status(badRequestCode).json({reason: err})
-//     );
-// });
+app.post("/contactPage/update", (req, res) => {
+
+    db.handleQuery(connectionPool, {
+            query: "UPDATE contact SET firstname = ?, surname = ? , address =?, emailaddress = ? , phonenumber = ? WHERE contact_id = ?",
+            values: [req.body.firstname,req.body.surname,req.body.address,req.body.emailaddress,req.body.phonenumber, req.body.id]
+        }, (data) => {
+            //just give all data back as json
+            res.status(httpOkCode).json(data);
+        }, (err) => res.status(badRequestCode).json({reason: err})
+    );
+});
+
+
+//Contact verwijderen
+app.post("/contactPage/delete", (req, res)=>{
+
+    db.handleQuery(connectionPool, {
+            query: "DELETE FROM contact WHERE contact_id = ?",
+            values: [req.body.contact_id]
+        }, (data) =>{
+            res.status(httpOkCode).json(data);
+        }, (err) => res.status(badRequestCode).json({reason:err})
+    );
+});
 
 // Groepen weergeven
 app.post("/groupPage", (req, res) => {

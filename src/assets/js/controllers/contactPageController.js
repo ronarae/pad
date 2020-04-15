@@ -2,7 +2,7 @@
  * ContactPage Controller
  * Toegevoegde contact kunnen bekijken
  *
- * @author Rona Rieza
+ * @author Rona Rieza & Wing Fung Lam
  */
 
 class ContactPageController {
@@ -21,9 +21,10 @@ class ContactPageController {
         this.contactPageView.find(".name").html(sessionManager.get("username"));
 
         //Update the contact's values
-        this.contactPageView.find("#modal-submit").on("click", (event) => this.update(event))
+        this.contactPageView.find("#modal-submit").on("click", (event) => this.update(event));
 
-
+        //delete contact's value from database
+        this.contactPageView.find("#del-modal-submit").on("click", (event) => this.delete(event));
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.contactPageView);
 
@@ -45,10 +46,15 @@ class ContactPageController {
                 nextContact += `<td>${contactData[i].address}</td>`;
                 nextContact += `<td>${contactData[i].emailaddress}</td>`;
                 nextContact += `<td>${contactData[i].phonenumber}</td>`;
-                nextContact += `<td><a class="btn btn-success" data-toggle="modal" data-target="#editModal" id="editbutton" value="${contactData[i].contact_id}" href="">Edit</a></td>`;
+                nextContact += `<td><a class="btn btn-success" data-toggle="modal" data-target="#editModal" id="editbutton"  href="">Edit</a>
+                                <a class="btn btn-danger" data-toggle="modal" data-target="#deluser_modal" href="#">Delete</a>
+                                 <input type="hidden" id="contact_id" value="${contactData[i].contact_id}"
+                                </td>`;
+
                 nextContact += "</tr>";
 
                 contactTable.append(nextContact);
+
             }
         } catch (e) {
             console.log("error while fetching rooms", e);
@@ -58,12 +64,13 @@ class ContactPageController {
         }
     }
 
-    //TODO update contacts' values by getting the appropriated contact's id,
+    //TODO LOAD SELECTED ID'S DATA IN FIELDS
     async update(event) {
+
         console.log("Opslaan");
         event.preventDefault();
         //Verzamelen van form gegevens
-        const id = this.contactRepository.find("#editbutton").val();
+        const id = this.contactPageView.find("#contact_id").val();
         const firstname = this.contactPageView.find("#inputFirstname").val();
         const surname = this.contactPageView.find("#inputSurname").val();
         const phonenumber = this.contactPageView.find("#inputPhonenumber").val();
@@ -82,6 +89,21 @@ class ContactPageController {
     //Called when the contactPage.html fails to load
     error() {
         $(".content").html("Failed to load content!");
+    }
+
+
+    //Delete user
+    async delete(event) {
+        console.log("delete user")
+        event.preventDefault();
+        const id = this.contactPageView.find("#contact_id").val();
+        console.log("user " + id);
+        try{
+            const userdelete = await this.contactRepository.delete(id);
+            console.log(userdelete);
+        }catch (e) {
+            console.log(e);
+        }
     }
 
 }

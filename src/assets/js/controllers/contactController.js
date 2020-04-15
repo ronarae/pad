@@ -1,6 +1,6 @@
 /**
  * ContactController is responsible for all Contact related actions
- * @author Niels Roeleveld
+ * @author Niels Roeleveld & Wing Fung Lam
  */
 
 class ContactController {
@@ -38,7 +38,7 @@ class ContactController {
         try {
             const eventId = await this.contactRepository.create(firstname, surname, phonenumber, emailaddress, address, user_id);
             console.log(eventId);
-            app.loadController(CONTROLLER_WELCOME);
+            app.loadController(CONTROLLER_CONTACT_PAGE);
         } catch (e) {
             console.log(e);
             //TODO: show appropriate error to user
