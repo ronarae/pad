@@ -6,7 +6,6 @@
  */
 
 class ContactPageController {
-
     constructor() {
         this.contactRepository = new ContactRepository();
 
@@ -16,7 +15,6 @@ class ContactPageController {
     }
 
     setup(htmlData) {
-
         this.contactPageView = $(htmlData);
 
         //Set the name in the view from the session
@@ -27,10 +25,6 @@ class ContactPageController {
 
         //delete contact's value from database
         this.contactPageView.find("#del-modal-submit").on("click", (event) => this.delete(event));
-
-        //TODO click event on edit button to fill modal inputfields
-
-
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.contactPageView);
 
@@ -41,10 +35,10 @@ class ContactPageController {
     async getAll() {
         const user_id = sessionManager.get("user_id");
 
-        const contactTable = $("#contacts");
         try {
             const contactData = await this.contactRepository.getAll(user_id);
 
+            const contactTable = $("#contacts");
             for (let i = 0; i < contactData.length; i++) {
                 let nextContact = "<tr>";
                 nextContact += `<td>${contactData[i].firstname}</td>`;
@@ -52,9 +46,9 @@ class ContactPageController {
                 nextContact += `<td>${contactData[i].address}</td>`;
                 nextContact += `<td>${contactData[i].emailaddress}</td>`;
                 nextContact += `<td>${contactData[i].phonenumber}</td>`;
-                nextContact += `<td><a class="btn btn-success" data-toggle="modal" data-target="#editModal" data-contact="${contactData[i]}" id="editbutton"  href="">Edit</a>
+                nextContact += `<td><a class="btn btn-success" data-toggle="modal" data-target="#editModal" id="editbutton"  href="">Edit</a>
                                 <a class="btn btn-danger" data-toggle="modal" data-target="#deluser_modal" href="#">Delete</a>
-                                <input type="hidden" id="contact_id" value=${contactData[i].contact_id}"
+                                 <input type="hidden" id="contact_id" value="${contactData[i].contact_id}"
                                 </td>`;
 
                 nextContact += "</tr>";
@@ -66,7 +60,7 @@ class ContactPageController {
             console.log("error while fetching rooms", e);
 
             //for now just show every error on page, normally not all errors are appropriate for user
-            contactTable.text(e)
+            contactData.text(e)
         }
     }
 
