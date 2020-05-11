@@ -34,14 +34,76 @@ class ContactController {
 
         console.log(`${firstname} - ${surname} - ${phonenumber} - ${emailaddress} - ${address}`);
 
-        //Versturen naar repository
-        try {
-            const eventId = await this.contactRepository.create(firstname, surname, phonenumber, emailaddress, address, user_id);
-            console.log(eventId);
-            app.loadController(CONTROLLER_CONTACT_PAGE);
-        } catch (e) {
-            console.log(e);
-            //TODO: show appropriate error to user
+        //Error strings
+        this.firstname = "Voornaam";
+        this.surname = "Achternaam";
+        this.phonenumber = "Telefoonnummer";
+        this.emailaddress = "Emailadres";
+        this.address = "Adres";
+        this.emptyField = " mag niet leeg zijn";
+        this.whiteField = " mag niet alleen uit spaties bestaan";
+        this.numberField = " mag alleen cijfers bevatten";
+        this.textField = " mag geen cijfers bevatten";
+        this.emailField = " moet een @ bevatten";
+        const errors = [];
+
+        //Check firstname
+        if (firstname.length === 0) { //empty field
+            errors.push({
+                message: this.firstname + this.emptyField
+            });
+        }  else if (firstname.match(/^\s*$/)) { //black space
+            errors.push({
+                message: this.firstname + this.whiteField
+            });
+        } else if (firstname.match("[0-9]")) { //number
+            errors.push({
+                message: this.firstname + this.textField
+            });
+        }
+
+        //Check surname
+        if (surname.match("[0-9]")) { //numbers
+            errors.push({
+                message: this.surname + this.textField
+            });
+        }
+
+        //Check phonenumber
+        if (phonenumber.length === 0) { //empty field
+            errors.push({
+                message: this.phonenumber + this.emptyField
+            });
+        } else if (phonenumber.match("[^0-9]")) { //not a number
+            errors.push({
+                message: this.phonenumber + this.numberField
+            });
+        }
+
+        //Check emailaddress
+        if (emailaddress.length !== 0 && !emailaddress.match("@")) { //not empty and doesn't contain a @
+            errors.push({
+                message: this.emailaddress + this.emailField
+            });
+        }
+
+        //Check if errors did occur
+        if (0<errors.length) {
+            //Show errors
+            let messages = "";
+            for(let i=0; i<errors.length; i++){
+                messages += errors[i].message + "\n";
+            }
+            alert(messages)
+        } else {
+            try { //Send to database
+                const eventId = await this.contactRepository.create(firstname, surname, phonenumber, emailaddress, address, user_id);
+                console.log(eventId);
+                app.loadController(CONTROLLER_CONTACT_PAGE);
+            } catch (e) {
+                console.log(e);
+                //TODO: show appropriate error to user
+            }
         }
     }
 
