@@ -96,7 +96,6 @@ class ContactController {
                 app.loadController(CONTROLLER_CONTACT_PAGE);
             } catch (e) {
                 console.log(e);
-                //TODO: show appropriate error to user
             }
         }
     }
