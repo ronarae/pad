@@ -9,6 +9,8 @@
         "cypress": "4.4.0"
     },
     "dependencies": {
+        "bcrpyt": "^2.0.0",
+        "bcrypt": "^4.0.1",
         "body-parser": "1.19.0",
         "bootstrap": "^4.4.1",
         "express": "4.17.1",

@@ -29,6 +29,7 @@ class RegisterController {
         const emailaddress = this.registerView.find("#inputEmailaddress").val();
         const password = this.registerView.find("#inputPassword").val();
         const confirmPassword = this.registerView.find("#inputConfirmPassword").val();
+        let hashPassword;
 
         //Error strings
         this.username = "Gebruikersnaam";
@@ -112,7 +113,8 @@ class RegisterController {
             alert(messages)
         } else {
             try { //Send to database
-                console.log(`${username} - ${emailaddress} - ${password}`);
+                hashPassword = CryptoJS.MD5(password);
+                console.log(`${username} - ${emailaddress} - ${hashPassword}`);
                 const eventId = await this.registerRepository.create(username, emailaddress, password);
                 console.log(eventId);
                 app.loadController(CONTROLLER_WELCOME);
