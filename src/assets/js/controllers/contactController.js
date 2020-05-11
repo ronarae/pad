@@ -32,8 +32,6 @@ class ContactController {
         const address = this.contactView.find("#inputAddress").val();
         const user_id = sessionManager.get("user_id");
 
-        console.log(`${firstname} - ${surname} - ${phonenumber} - ${emailaddress} - ${address}`);
-
         //Error strings
         this.firstname = "Voornaam";
         this.surname = "Achternaam";
@@ -41,20 +39,15 @@ class ContactController {
         this.emailaddress = "Emailadres";
         this.address = "Adres";
         this.emptyField = " mag niet leeg zijn";
-        this.whiteField = " mag niet alleen uit spaties bestaan";
         this.numberField = " mag alleen cijfers bevatten";
         this.textField = " mag geen cijfers bevatten";
         this.emailField = " moet een @ bevatten";
         const errors = [];
 
         //Check firstname
-        if (firstname.length === 0) { //empty field
+        if (firstname.length === 0 || firstname.match(/^\s*$/)) { //empty field
             errors.push({
                 message: this.firstname + this.emptyField
-            });
-        }  else if (firstname.match(/^\s*$/)) { //black space
-            errors.push({
-                message: this.firstname + this.whiteField
             });
         } else if (firstname.match("[0-9]")) { //number
             errors.push({
@@ -70,7 +63,7 @@ class ContactController {
         }
 
         //Check phonenumber
-        if (phonenumber.length === 0) { //empty field
+        if (phonenumber.length === 0 || phonenumber.match(/^\s*$/)) { //empty field
             errors.push({
                 message: this.phonenumber + this.emptyField
             });
@@ -97,6 +90,7 @@ class ContactController {
             alert(messages)
         } else {
             try { //Send to database
+                console.log(`${firstname} - ${surname} - ${phonenumber} - ${emailaddress} - ${address}`);
                 const eventId = await this.contactRepository.create(firstname, surname, phonenumber, emailaddress, address, user_id);
                 console.log(eventId);
                 app.loadController(CONTROLLER_CONTACT_PAGE);
