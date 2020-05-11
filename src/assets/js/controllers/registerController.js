@@ -51,105 +51,106 @@ class RegisterController {
             }
         }
     }
-    $(document).ready(function() {
-    var userId = FYSCloud.Session.get("userId");
-    if (userId) {
-        FYSCloud.URL.redirect("login.html", {
-            id: userId
-        });
-    }
-
-    $("#loginButton").on("click", function(e) {
-        e.preventDefault();
-        const feedback = document.getElementById("feedback");
-        var email = document.getElementById("email").value;
-        var wachtwoord = document.getElementById("wachtwoord").value;
-
-        if (!email || !wachtwoord) {
-            throw (feedback.innerHTML = "Niet alle velden zijn ingevuld!");
-        }
-        FYSCloud.API.queryDatabase(
-            "SELECT * FROM gebruiker WHERE email = ? AND wachtwoord = ? AND actief = TRUE",
-            [email, wachtwoord]
-        )
-            .done(function(data) {
-                if (data[0]) {
-                    var profileId = data[0].id;
-                    //Set userId
-                    FYSCloud.Session.set("userId", profileId);
-                    //Redirect page to an URL with querystring
-                    FYSCloud.URL.redirect("profiel.html", {
-                        id: profileId
-                    });
-                } else {
-                    throw (feedback.innerHTML = "Gebruiker bestaat niet.");
-                }
-            })
-            .fail(function(reason) {
-                console.log(reason);
-                throw (feedback.innerHTML = "Gebruiker bestaat niet.");
-            });
-    });
-    $("#wachtwoordWijzigen").on("click", function(e) {
-        e.preventDefault();
-        var email = document.getElementById("herstelEmail").value;
-
-        if (!email) {
-            throw (feedback.innerHTML = "Vul geldig email adres in.");
-        }
-        //resetToken = Math.floor(Math.random() * 1000000000);
-
-        FYSCloud.API.queryDatabase(
-            "SELECT * FROM gebruiker WHERE email = ? AND actief = true",
-            [email]
-        )
-            .done(function(data) {
-                FYSCloud.API.queryDatabase(
-                    "UPDATE gebruiker SET resetToken = ? WHERE email = ? AND actief = TRUE",
-                    [resetToken, email]
-                ).done(function(data) {
-                    sendEmail(resetToken, email);
-                });
-            })
-            .fail(function(reason) {
-                console.log(reason);
-                throw (feedback.innerHTML = "Gebruiker bestaat niet.");
-            });
-    });
-
-    function sendEmail(resetToken, email) {
-        var bericht = `
-
-
-
-
-        // error() {
-    //     $(".content").html("Failed to load content")
+    //Even commect gemaakt, onafgemaakte code gaf error aan, sorry van wie dit is :(
+    // $(function() {
+    // var userId = FYSCloud.Session.get("userId");
+    // if (userId) {
+    //     FYSCloud.URL.redirect("login.html", {
+    //         id: userId
+    //     });
     // }
     //
-    // myApp = angular.module("myapp", []);
-    // myApp.controller("PasswordController", function($scope) {
-
-        var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-        var mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
-
-        $scope.passwordStrength = {
-            "float": "left",
-            "width": "100px",
-            "height": "23px",
-            "margin-left": "7px"
-        };
-
-        $scope.analyze = function (value) {
-            if (strongRegex.test(value)) {
-                $scope.passwordStrength["background-color"] = "green";
-            } else if (mediumRegex.test(value)) {
-                $scope.passwordStrength["background-color"] = "orange";
-            } else {
-                $scope.passwordStrength["background-color"] = "red";
-            }
-        };
-
-    }
+    // $("#loginButton").on("click", function(e) {
+    //     e.preventDefault();
+    //     const feedback = document.getElementById("feedback");
+    //     var email = document.getElementById("email").value;
+    //     var wachtwoord = document.getElementById("wachtwoord").value;
+    //
+    //     if (!email || !wachtwoord) {
+    //         throw (feedback.innerHTML = "Niet alle velden zijn ingevuld!");
+    //     }
+    //     FYSCloud.API.queryDatabase(
+    //         "SELECT * FROM gebruiker WHERE email = ? AND wachtwoord = ? AND actief = TRUE",
+    //         [email, wachtwoord]
+    //     )
+    //         .done(function(data) {
+    //             if (data[0]) {
+    //                 var profileId = data[0].id;
+    //                 //Set userId
+    //                 FYSCloud.Session.set("userId", profileId);
+    //                 //Redirect page to an URL with querystring
+    //                 FYSCloud.URL.redirect("profiel.html", {
+    //                     id: profileId
+    //                 });
+    //             } else {
+    //                 throw (feedback.innerHTML = "Gebruiker bestaat niet.");
+    //             }
+    //         })
+    //         .fail(function(reason) {
+    //             console.log(reason);
+    //             throw (feedback.innerHTML = "Gebruiker bestaat niet.");
+    //         });
+    // });
+    // $("#wachtwoordWijzigen").on("click", function(e) {
+    //     e.preventDefault();
+    //     var email = document.getElementById("herstelEmail").value;
+    //
+    //     if (!email) {
+    //         throw (feedback.innerHTML = "Vul geldig email adres in.");
+    //     }
+    //     //resetToken = Math.floor(Math.random() * 1000000000);
+    //
+    //     FYSCloud.API.queryDatabase(
+    //         "SELECT * FROM gebruiker WHERE email = ? AND actief = true",
+    //         [email]
+    //     )
+    //         .done(function(data) {
+    //             FYSCloud.API.queryDatabase(
+    //                 "UPDATE gebruiker SET resetToken = ? WHERE email = ? AND actief = TRUE",
+    //                 [resetToken, email]
+    //             ).done(function(data) {
+    //                 sendEmail(resetToken, email);
+    //             });
+    //         })
+    //         .fail(function(reason) {
+    //             console.log(reason);
+    //             throw (feedback.innerHTML = "Gebruiker bestaat niet.");
+    //         });
+    // });
+    //
+    // // function sendEmail(resetToken, email) {
+    // //     var bericht = `
+    // //
+    //
+    //
+    //
+    //     // error() {
+    // //     $(".content").html("Failed to load content")
+    // // }
+    // //
+    // // myApp = angular.module("myapp", []);
+    // // myApp.controller("PasswordController", function($scope) {
+    //
+    //     var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    //     var mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
+    //
+    //     $scope.passwordStrength = {
+    //         "float": "left",
+    //         "width": "100px",
+    //         "height": "23px",
+    //         "margin-left": "7px"
+    //     };
+    //
+    //     $scope.analyze = function (value) {
+    //         if (strongRegex.test(value)) {
+    //             $scope.passwordStrength["background-color"] = "green";
+    //         } else if (mediumRegex.test(value)) {
+    //             $scope.passwordStrength["background-color"] = "orange";
+    //         } else {
+    //             $scope.passwordStrength["background-color"] = "red";
+    //         }
+    //     };
+    //
+    // });
 
 }
