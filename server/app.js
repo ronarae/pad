@@ -173,6 +173,20 @@ app.post("/groupPage", (req, res) => {
     );
 });
 
+// Groep verwijderen
+
+app.post("/groupPage/delete", (req, res) => {
+
+    db.handleQuery(connectionPool, {
+            query: "DELETE FROM pad_bsc_8_dev.`group` WHERE groupId = ?",
+            values: [req.body.groupId]
+        }, (data) => {
+            //just give all data back as json
+            res.status(httpOkCode).json(data);
+        }, (err) => res.status(badRequestCode).json({reason: err})
+    );
+});
+
 //------- END ROUTES -------
 
 module.exports = app;

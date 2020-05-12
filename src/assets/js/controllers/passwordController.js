@@ -3,9 +3,9 @@
  * @author Niels Roeleveld
  */
 
-class ResetEmailController {
+class PasswordController {
     constructor() {
-        this.resetEmailRepository = new resetEmailRepository;
+        this.passwordRepository = new passwordRepository;
 
         $.get("views/password.html")
             .done((htmlData) => this.setup(htmlData))
@@ -57,6 +57,35 @@ class ResetEmailController {
                 console.log(`${emailaddress}`);
 
                 //TODO: Send reset email
+                const nodemailer = require('nodemailer');
+
+                async function main() {
+                    let testAccount = await nodemailer.createTestAccount();
+
+                    let transporter = nodemailer.createTransport({
+                        host: "smtp.ethereal.email",
+                        port: 587,
+                        auth: {
+                            user: "pad-email",
+                            pass: "pad-email-ww"
+                        }
+                    });
+
+                    let info = await transporter.sendMail({
+                        from: '"BENS8 " <noreply@bens8.com>', // sender address
+                        to: "nielsroe.bmx@gmail.com, niels.roeleveld@hva.nl", // list of receivers
+                        subject: "Subject", // Subject line
+                        text: "Text", // plain text body
+                        html: "Html" // html body
+                    });
+
+                    console.log("Message sent: %s", info.messageId);
+                }
+
+                // module.exports = {
+                //     sendMail
+                // };
+                main().catch(console.error);
 
                 console.log(eventId);
                 app.loadController(CONTROLLER_WELCOME);

@@ -12,6 +12,18 @@ class GroupPageController {
         $.get("views/groupPage.html")
             .done((htmlData) => this.setup(htmlData))
             .fail(() => this.error());
+
+        this.groupId();
+
+    }
+
+    groupId() {
+        $(".btn btn-success").click(
+            function () {
+                alert("HAHA");
+                $(".btn btn-success").data("ts-speed")
+            }
+        )
     }
 
     setup(htmlData) {
@@ -37,11 +49,17 @@ class GroupPageController {
             for (let i = 0; i < groupData.length; i++) {
                 let nextGroup = "<tr>";
                 nextGroup += `<td>${groupData[i].name}</td>`;
-                nextGroup += `<td><a class="btn btn-success" href="">Edit</a></td>`;
+                nextGroup += `<td> <div class = "groupEdit" <a class="btn btn-success" data-groupid = "${groupData[i].groupId}">Edit</a></td> </div>`;
                 nextGroup += "</tr>";
 
                 groupTable.append(nextGroup);
             }
+            $('.groupEdit').on("click", (event) => { console.log(event.currentTarget.dataset.groupid);
+            const groupId = event.currentTarget.dataset.groupid;
+            this.delete(groupId);
+
+            });
+
         } catch (e) {
             console.log("error while fetching rooms", e);
 
@@ -50,9 +68,24 @@ class GroupPageController {
         }
     }
 
+    async delete(groupId){
+        try {
+            const groupDeleteData = await this.groupRepository.delete(groupId);
+            console.log(groupDeleteData);
+            
+            $.get("views/groupPage.html")
+                .done((htmlData) => this.setup(htmlData))
+                .fail(() => this.error());
+        } catch (e) {
+            console.log(e);
+
+        }
+
+    }
+
     //Called when the contactPage.html fails to load
     error() {
         $(".content").html("Failed to load content!");
     }
-
+s
 }

@@ -14,4 +14,9 @@ class GroupRepository {
             .doRequest("/groupPage", {user_id: user_id});
     }
 
+    async delete(groupId){
+        return await networkManager
+            .doRequest("/groupPage/delete", {groupId: groupId});
+    }
+
 }

@@ -22,7 +22,7 @@ class RegisterController {
     }
 
     async onAddEvent(event) {
-        event.preventDefault();
+        // event.preventDefault();
 
         //Verzamelen van form gegevens
         const username = this.registerView.find("#inputUsername").val();
@@ -47,6 +47,7 @@ class RegisterController {
 
         //Check firstname
         if (username.length === 0 || username.match(/^\s*$/)) { //empty field
+            document.getElementById("inputUsername").setCustomValidity(this.username + this.emptyField);
             errors.push({
                 message: this.username + this.emptyField
             });
@@ -54,10 +55,12 @@ class RegisterController {
 
         //Check emailaddress
         if (emailaddress.length === 0 || emailaddress.match(/^\s*$/)) { //empty field
+            document.getElementById("inputEmailaddress").setCustomValidity(this.emailaddress + this.emptyField);
             errors.push({
                 message: this.emailaddress + this.emptyField
             });
         } else if (!emailaddress.match("@")) { //doesn't contain a @
+            document.getElementById("inputEmailaddress").setCustomValidity(this.emailaddress + this.emailField);
             errors.push({
                 message: this.emailaddress + this.emailField
             });
@@ -65,31 +68,37 @@ class RegisterController {
 
         //Check password
         if (password.length === 0 || password.match(/^\s*$/)) { //empty field
+            document.getElementById("inputPassword").setCustomValidity(this.password + this.emptyField);
             errors.push({
                 message: this.password + this.emptyField
             });
         } else {
             if (!password.match("(?=.*[a-z])")) { //lower case text
+                document.getElementById("inputPassword").setCustomValidity(this.password + this.passwordReq);
                 errors.push({
                     message: this.password + this.passwordReq
                 })
             }
             if (!password.match("(?=.*[A-Z])")) { //upper case text
+                document.getElementById("inputPassword").setCustomValidity(this.password + this.passwordReq1);
                 errors.push({
                     message: this.password + this.passwordReq1
                 })
             }
             if (!password.match("(?=.*[0-9])")) { //numbers
+                document.getElementById("inputPassword").setCustomValidity(this.password + this.passwordReq2);
                 errors.push({
                     message: this.password + this.passwordReq2
                 })
             }
             if (!password.match("(?=.*[!@#$%^&*])")) { //special characters
+                document.getElementById("inputPassword").setCustomValidity(this.password + this.passwordReq3);
                 errors.push({
                     message: this.password + this.passwordReq3
                 })
             }
             if (!password.match("(?=.{8,})")) { //minimum of 8 characters
+                document.getElementById("inputPassword").setCustomValidity(this.password + this.passwordReq4);
                 errors.push({
                     message: this.password + this.passwordReq4
                 })
@@ -98,6 +107,7 @@ class RegisterController {
 
         //Check password confirmation
         if (confirmPassword !== password) {
+            document.getElementById("inputConfirmPassword").setCustomValidity(this.confirmPassword);
             errors.push({
                 message: this.confirmPassword
             })
@@ -110,11 +120,12 @@ class RegisterController {
             for (let i = 0; i < errors.length; i++) {
                 messages += errors[i].message + "\n";
             }
-            alert(messages)
+            console.log(messages)
         } else {
             try { //Send to database
-                hashPassword = CryptoJS.MD5(password);
-                console.log(`${username} - ${emailaddress} - ${hashPassword}`);
+                // hashPassword = CryptoJS.MD5(password);
+                event.preventDefault();
+                console.log(`${username} - ${emailaddress} - ${password}`);
                 const eventId = await this.registerRepository.create(username, emailaddress, password);
                 console.log(eventId);
                 app.loadController(CONTROLLER_WELCOME);

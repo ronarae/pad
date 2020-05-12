@@ -1,6 +1,6 @@
 /**
  * @author Yazan Mousa
- * this is class is resposible for makeing a group for users
+ * this class is resposible for makeing a group for users.
  */
 
 class GroupController {
@@ -23,9 +23,11 @@ class GroupController {
         
 
     }
-    async onAddEvent(event) {
 
-        event.preventDefault();
+    async onAddEvent(event) { // om niet met callbacks te werken
+
+        event.preventDefault(); // wist ik niet
+        //om bij een form niet te refrshen
 
         //verzamelen van form gegevens
         const name = this.createGroupView.find("#inputGroupsName").val();
@@ -36,7 +38,7 @@ class GroupController {
 
         //await this.groupRepository.create(name, user_id);
         try{
-            const groupId = await this.groupRepository.create(name, user_id);
+            const groupId = await this.groupRepository.create(name, user_id); // wist ik niet
             console.log(groupId);
             app.loadController(CONTROLLER_WELCOME);
         } catch (e) {
@@ -51,5 +53,6 @@ class GroupController {
        $(".content").html("Failed to load content")
     }
 
-
+// kijken of de naam al bestaat
+    // camel case gebruiken overal
 }
