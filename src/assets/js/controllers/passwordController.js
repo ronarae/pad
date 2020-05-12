@@ -3,9 +3,9 @@
  * @author Niels Roeleveld
  */
 
-class ResetEmailController {
+class PasswordController {
     constructor() {
-        this.resetEmailRepository = new resetEmailRepository;
+        this.passwordRepository = new passwordRepository;
 
         $.get("views/password.html")
             .done((htmlData) => this.setup(htmlData))

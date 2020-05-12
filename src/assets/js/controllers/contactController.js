@@ -22,7 +22,7 @@ class ContactController {
     }
 
     async onAddEvent(event) {
-        event.preventDefault();
+        // event.preventDefault();
 
         //Verzamelen van form gegevens
         const firstname = this.contactView.find("#inputFirstname").val();
@@ -42,54 +42,61 @@ class ContactController {
         this.numberField = " mag alleen cijfers bevatten";
         this.textField = " mag geen cijfers bevatten";
         this.emailField = " moet een @ bevatten";
-        const errors = [];
+        const checks = [];
 
         //Check firstname
         if (firstname.length === 0 || firstname.match(/^\s*$/)) { //empty field
-            errors.push({
+            document.getElementById("inputFirstname").setCustomValidity(this.firstname + this.emptyField);
+            checks.push({
                 message: this.firstname + this.emptyField
             });
         } else if (firstname.match("[0-9]")) { //number
-            errors.push({
+            document.getElementById("inputFirstname").setCustomValidity(this.firstname + this.textField);
+            checks.push({
                 message: this.firstname + this.textField
             });
         }
 
         //Check surname
         if (surname.match("[0-9]")) { //numbers
-            errors.push({
+            document.getElementById("inputSurname").setCustomValidity(this.surname + this.textField);
+            checks.push({
                 message: this.surname + this.textField
             });
         }
 
-        //Check phonenumber
+        // Check phonenumber
         if (phonenumber.length === 0 || phonenumber.match(/^\s*$/)) { //empty field
-            errors.push({
+            document.getElementById("inputPhonenumber").setCustomValidity(this.phonenumber + this.emptyField);
+            checks.push({
                 message: this.phonenumber + this.emptyField
             });
         } else if (phonenumber.match("[^0-9]")) { //not a number
-            errors.push({
+            document.getElementById("inputPhonenumber").setCustomValidity(this.phonenumber + this.numberField);
+            checks.push({
                 message: this.phonenumber + this.numberField
             });
         }
 
-        //Check emailaddress
+        // Check emailaddress
         if (emailaddress.length !== 0 && !emailaddress.match("@")) { //not empty and doesn't contain a @
-            errors.push({
+            document.getElementById("inputEmailaddress").setCustomValidity(this.emailaddress + this.emailField);
+            checks.push({
                 message: this.emailaddress + this.emailField
             });
         }
 
-        //Check if errors did occur
-        if (0<errors.length) {
+        // Check if errors did occur
+        if (0 < checks.length) {
             //Show errors
             let messages = "";
-            for(let i=0; i<errors.length; i++){
-                messages += errors[i].message + "\n";
+            for (let i = 0; i < checks.length; i++) {
+                messages += checks[i].message + "\n";
             }
-            alert(messages)
+            console.log(messages)
         } else {
             try { //Send to database
+                event.preventDefault();
                 console.log(`${firstname} - ${surname} - ${phonenumber} - ${emailaddress} - ${address}`);
                 const eventId = await this.contactRepository.create(firstname, surname, phonenumber, emailaddress, address, user_id);
                 console.log(eventId);

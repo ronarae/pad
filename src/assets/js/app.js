@@ -16,7 +16,7 @@ const CONTROLLER_CONTACTS = "contacts";
 const CONTROLLER_CONTACT_PAGE = "contactPage";
 const CONTROLLER_GROUP = "group";
 const CONTROLLER_GROUP_PAGE = "groupPage";
-const CONTROLLER_RESETEMAIL = "resetEmail";
+const CONTROLLER_PASSWORD = "password";
 
 
 const sessionManager = new SessionManager();
@@ -94,9 +94,9 @@ class App {
                 this.isLoggedIn(() => new WelcomeController, () => new LoginController());
                 break;
 
-            case CONTROLLER_RESETEMAIL:
+            case CONTROLLER_PASSWORD:
                 this.setCurrentController(name);
-                this.isLoggedIn(() => new WelcomeController, () => new ResetEmailController());
+                this.isLoggedIn(() => new WelcomeController, () => new PasswordController());
                 break;
 
             default:
