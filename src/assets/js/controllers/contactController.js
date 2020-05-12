@@ -42,17 +42,17 @@ class ContactController {
         this.numberField = " mag alleen cijfers bevatten";
         this.textField = " mag geen cijfers bevatten";
         this.emailField = " moet een @ bevatten";
-        const checks = [];
+        const errors = [];
 
         //Check firstname
         if (firstname.length === 0 || firstname.match(/^\s*$/)) { //empty field
             document.getElementById("inputFirstname").setCustomValidity(this.firstname + this.emptyField);
-            checks.push({
+            errors.push({
                 message: this.firstname + this.emptyField
             });
         } else if (firstname.match("[0-9]")) { //number
             document.getElementById("inputFirstname").setCustomValidity(this.firstname + this.textField);
-            checks.push({
+            errors.push({
                 message: this.firstname + this.textField
             });
         }
@@ -60,7 +60,7 @@ class ContactController {
         //Check surname
         if (surname.match("[0-9]")) { //numbers
             document.getElementById("inputSurname").setCustomValidity(this.surname + this.textField);
-            checks.push({
+            errors.push({
                 message: this.surname + this.textField
             });
         }
@@ -68,12 +68,12 @@ class ContactController {
         // Check phonenumber
         if (phonenumber.length === 0 || phonenumber.match(/^\s*$/)) { //empty field
             document.getElementById("inputPhonenumber").setCustomValidity(this.phonenumber + this.emptyField);
-            checks.push({
+            errors.push({
                 message: this.phonenumber + this.emptyField
             });
         } else if (phonenumber.match("[^0-9]")) { //not a number
             document.getElementById("inputPhonenumber").setCustomValidity(this.phonenumber + this.numberField);
-            checks.push({
+            errors.push({
                 message: this.phonenumber + this.numberField
             });
         }
@@ -81,17 +81,17 @@ class ContactController {
         // Check emailaddress
         if (emailaddress.length !== 0 && !emailaddress.match("@")) { //not empty and doesn't contain a @
             document.getElementById("inputEmailaddress").setCustomValidity(this.emailaddress + this.emailField);
-            checks.push({
+            errors.push({
                 message: this.emailaddress + this.emailField
             });
         }
 
         // Check if errors did occur
-        if (0 < checks.length) {
+        if (0 < errors.length) {
             //Show errors
             let messages = "";
-            for (let i = 0; i < checks.length; i++) {
-                messages += checks[i].message + "\n";
+            for (let i = 0; i < errors.length; i++) {
+                messages += errors[i].message + "\n";
             }
             console.log(messages)
         } else {
