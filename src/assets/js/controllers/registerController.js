@@ -43,9 +43,10 @@ class RegisterController {
         this.passwordReq2 = " moet minimaal één cijfer bevatten";
         this.passwordReq3 = " moet minimaal één speciaal teken bevatten";
         this.passwordReq4 = " moet minimaal 8 tekens lang zijn";
+        this.fieldExists = " bestaat al in ons systeem";
         const errors = [];
 
-        //Check firstname
+        //Check username
         if (username.length === 0 || username.match(/^\s*$/)) { //empty field
             document.getElementById("inputUsername").setCustomValidity(this.username + this.emptyField);
             errors.push({
