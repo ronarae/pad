@@ -11,5 +11,4 @@ class registerRepository {
                 password: password
             });
     }
-
 }

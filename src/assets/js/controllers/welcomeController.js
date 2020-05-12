@@ -45,7 +45,6 @@ class WelcomeController {
         }
     }
 
-
     //Called when the login.html fails to load
     error() {
         $(".content").html("Failed to load content!");
