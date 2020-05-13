@@ -55,10 +55,10 @@ class ContactPageController {
     async getAll() {
         const user_id = sessionManager.get("user_id");
 
+        const contactTable = $("#contacts");
         try {
             const contactData = await this.contactRepository.getAll(user_id);
 
-            const contactTable = $("#contacts");
             for (let i = 0; i < contactData.length; i++) {
                 let nextContact = "<tr>";
                 nextContact += `<td>${contactData[i].firstname}</td>`;
@@ -80,7 +80,7 @@ class ContactPageController {
             console.log("error while fetching rooms", e);
 
             //for now just show every error on page, normally not all errors are appropriate for user
-            contactData.text(e)
+            contactTable.text(e)
         }
     }
 
