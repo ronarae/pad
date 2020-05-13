@@ -19,4 +19,17 @@ class GroupRepository {
             .doRequest("/groupPage/delete", {groupId: groupId});
     }
 
+    //to be fixed -rona
+    async update(groupId, name){
+        return await networkManager
+            .doRequest("/groupPage/update", {
+                groupId: groupId,
+                name: name,
+               });
+
+
+
+
+    }
+
 }

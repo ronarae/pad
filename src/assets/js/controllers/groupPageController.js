@@ -13,17 +13,6 @@ class GroupPageController {
             .done((htmlData) => this.setup(htmlData))
             .fail(() => this.error());
 
-        this.groupId();
-
-    }
-
-    groupId() {
-        $(".btn btn-success").click(
-            function () {
-                alert("HAHA");
-                $(".btn btn-success").data("ts-speed")
-            }
-        )
     }
 
     setup(htmlData) {
@@ -32,6 +21,9 @@ class GroupPageController {
         //Set the name in the view from the session
         this.groupPageView.find(".name").html(sessionManager.get("username"));
 
+        //Update the contact's values
+       // this.groupPageView.find("#modal-submit").on("click", (groupId) => this.update(groupId));
+
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.groupPageView);
 
@@ -39,6 +31,7 @@ class GroupPageController {
     }
 
     //om alle toegevoegde contacten op te halen
+    //groep edit need t be fixed -rona
     async getAll() {
         const user_id = sessionManager.get("user_id");
 
@@ -49,16 +42,27 @@ class GroupPageController {
             for (let i = 0; i < groupData.length; i++) {
                 let nextGroup = "<tr>";
                 nextGroup += `<td>${groupData[i].name}</td>`;
-                nextGroup += `<td> <div class = "groupEdit" <a class="btn btn-success" data-groupid = "${groupData[i].groupId}">Edit</a></td> </div>`;
+                nextGroup += `<td> <a class = "groupDelete btn btn-danger" data-groupid = "${groupData[i].groupId}">Delete </a>
+                                <a class= "groupEdit btn btn-success" data-toggle="modal" data-target="#editModal" 
+                                data-contact="${groupData[i]}" data-groupid = "${groupData[i].groupId}" id="editbutton" 
+                                data-name = "${groupData[i].name}" >Edit</a> `;
                 nextGroup += "</tr>";
 
                 groupTable.append(nextGroup);
             }
-            $('.groupEdit').on("click", (event) => { console.log(event.currentTarget.dataset.groupid);
+            $('.groupDelete').on("click", (event) => { console.log(event.currentTarget.dataset.groupid);
             const groupId = event.currentTarget.dataset.groupid;
             this.delete(groupId);
-
             });
+            $('.groupEdit').on("click", (event) => {
+                console.log(event.currentTarget.dataset.groupid + "line 57");
+                const groupId = event.currentTarget.dataset.groupid;
+                console.log(event.currentTarget.dataset.name + "line 59");
+                const name = event.currentTarget.dataset.name;
+
+                this.update(groupId, name);
+            });
+
 
         } catch (e) {
             console.log("error while fetching rooms", e);
@@ -83,9 +87,28 @@ class GroupPageController {
 
     }
 
+    //to be fixed -rona
+    async update(groupId, name) {
+        console.log("start update");
+        const groupName = this.groupPageView.find("#groupName").val();
+        console.log(groupName);
+        try {
+
+            const groupUpdateData = await this.groupRepository.update(groupId,name,groupName);
+            console.log(groupUpdateData);
+
+
+        } catch (e) {
+            console.log(e);
+
+        }
+    }
+
+
+
     //Called when the contactPage.html fails to load
     error() {
         $(".content").html("Failed to load content!");
     }
-s
+
 }
