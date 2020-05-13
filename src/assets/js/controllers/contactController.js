@@ -21,9 +21,6 @@ class ContactController {
         this.contactView.find(".btn").on("click", (event) => this.onAddEvent(event))
     }
 
-    removeError(event) {
-        oninput="setCustomValidity('')";
-    }
     async onAddEvent(event) {
         // event.preventDefault();
 
