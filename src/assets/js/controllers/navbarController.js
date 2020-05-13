@@ -19,6 +19,13 @@ class NavbarController {
         sidebarView.find("a").on("click", this.handleClickMenuItem);
 
         //TODO: Add logic here to determine which menu items should be visible or not
+        if(sessionManager.get("username")){
+           const navOption = sidebarView.find("a").attr("data-controller=login");
+           navOption.empty();
+           console.log();
+        }else{
+
+        }
 
         //Empty the sidebar-div and add the resulting view to the page
         $(".sidebar").empty().append(sidebarView);

@@ -29,22 +29,36 @@ class ContactPageController {
         this.contactPageView.find("#del-modal-submit").on("click", (event) => this.delete(event));
 
         //TODO click event on edit button to fill modal inputfields
-
+        this.contactPageView.find("#editModal").on("click", (event) => this.fillEditModal(event));
 
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.contactPageView);
 
         this.getAll();
+
+    }
+
+    //Function vul in de modal, de betreffende data in de inputfields
+    fillEditModal(event){
+        const contact = $(this).data("data-contact");
+        console.log("fill the edit modal " + contact);
+
+        const editModal = $("#editModal");
+        editModal.find("#inputFirstname").text(contact.firstname);
+        editModal.find("#inputSurname").text(contact.surname);
+        editModal.find("#inputAddress").text(contact.address);
+        editModal.find("#inputEmailaddress").text(contact.emailaddress);
+        editModal.find("#inputPhonenumber").text(contact.phonenumber);
     }
 
     //om alle toegevoegde contacten op te halen
     async getAll() {
         const user_id = sessionManager.get("user_id");
 
+        const contactTable = $("#contacts");
         try {
             const contactData = await this.contactRepository.getAll(user_id);
 
-            const contactTable = $("#contacts");
             for (let i = 0; i < contactData.length; i++) {
                 let nextContact = "<tr>";
                 nextContact += `<td>${contactData[i].firstname}</td>`;
@@ -66,7 +80,7 @@ class ContactPageController {
             console.log("error while fetching rooms", e);
 
             //for now just show every error on page, normally not all errors are appropriate for user
-            contactData.text(e)
+            contactTable.text(e)
         }
     }
 

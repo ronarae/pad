@@ -43,9 +43,10 @@ class RegisterController {
         this.passwordReq2 = " moet minimaal één cijfer bevatten";
         this.passwordReq3 = " moet minimaal één speciaal teken bevatten";
         this.passwordReq4 = " moet minimaal 8 tekens lang zijn";
+        this.fieldExists = " bestaat al in ons systeem";
         const errors = [];
 
-        //Check firstname
+        //Check username
         if (username.length === 0 || username.match(/^\s*$/)) { //empty field
             document.getElementById("inputUsername").setCustomValidity(this.username + this.emptyField);
             errors.push({
@@ -141,6 +142,7 @@ class RegisterController {
         }
     }
 
+
     // $(document).ready(function()) {
     // var userId = FYSCloud.Session.get("userId");
     // if (userId) {
@@ -207,10 +209,41 @@ class RegisterController {
     //         });
     // });
     //
-    // function sendEmail(resetToken, email) {
-    //     var bericht = `
-    //
 
+    // // function sendEmail(resetToken, email) {
+    // //     var bericht = `
+    // //
+    //
+    //
+    //
+    //     // error() {
+    // //     $(".content").html("Failed to load content")
+    // // }
+    // //
+    // // myApp = angular.module("myapp", []);
+    // // myApp.controller("PasswordController", function($scope) {
+    //
+    //     var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    //     var mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
+    //
+    //     $scope.passwordStrength = {
+    //         "float": "left",
+    //         "width": "100px",
+    //         "height": "23px",
+    //         "margin-left": "7px"
+    //     };
+    //
+    //     $scope.analyze = function (value) {
+    //         if (strongRegex.test(value)) {
+    //             $scope.passwordStrength["background-color"] = "green";
+    //         } else if (mediumRegex.test(value)) {
+    //             $scope.passwordStrength["background-color"] = "orange";
+    //         } else {
+    //             $scope.passwordStrength["background-color"] = "red";
+    //         }
+    //     };
+    //
+    // });
 
 //
 //         // error() {
