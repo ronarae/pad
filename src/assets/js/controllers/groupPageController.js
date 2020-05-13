@@ -17,14 +17,14 @@ class GroupPageController {
 
     }
 
-    groupId() {
-        $(".btn btn-success").click(
-            function () {
-                alert("HAHA");
-                $(".btn btn-success").data("ts-speed")
-            }
-        )
-    }
+    // groupId() {
+    //     $(".btn btn-success").click(
+    //         function () {
+    //             alert("HAHA");
+    //             $(".btn btn-success").data("ts-speed")
+    //         }
+    //     )
+    // }
 
     setup(htmlData) {
         this.groupPageView = $(htmlData);
@@ -72,7 +72,7 @@ class GroupPageController {
         try {
             const groupDeleteData = await this.groupRepository.delete(groupId);
             console.log(groupDeleteData);
-            
+
             $.get("views/groupPage.html")
                 .done((htmlData) => this.setup(htmlData))
                 .fail(() => this.error());
