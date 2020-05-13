@@ -193,7 +193,7 @@ app.post("/groupPage/update", (req, res) => {
 
     db.handleQuery(connectionPool, {
             query: "UPDATE pad_bsc_8_dev.`group` SET name = ? WHERE groupId = ?",
-            values: [req.body.name, req.body.groupId]
+            values: [req.body.groupName, req.body.groupId]
         }, (data) => {
             //just give all data back as json
             res.status(httpOkCode).json(data);
