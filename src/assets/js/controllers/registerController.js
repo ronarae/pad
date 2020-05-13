@@ -1,6 +1,6 @@
 /**
  * RegisterController is responsible for all Register related actions
- * @author Niels Roeleveld & Wing Fung Lam
+ * @author Niels Roeleveld & Wing Fung Lam & Majdouline Hamdi
  */
 
 class RegisterController {
