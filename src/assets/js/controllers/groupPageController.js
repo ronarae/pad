@@ -94,7 +94,7 @@ class GroupPageController {
         console.log(groupName);
         try {
 
-            const groupUpdateData = await this.groupRepository.update(groupId,name,groupName);
+            const groupUpdateData = await this.groupRepository.update(groupId,groupName);
             console.log(groupUpdateData);
 
 

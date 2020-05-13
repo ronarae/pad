@@ -20,11 +20,11 @@ class GroupRepository {
     }
 
     //to be fixed -rona
-    async update(groupId, name){
+    async update(groupId, groupName){
         return await networkManager
             .doRequest("/groupPage/update", {
                 groupId: groupId,
-                name: name,
+                groupName: groupName,
                });
 
 
