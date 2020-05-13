@@ -39,7 +39,7 @@ class ContactPageController {
     }
 
     //Function vul in de modal, de betreffende data in de inputfields
-    fillEditModal(event){
+    fillEditModal(){
         const contact = $(this).data("data-contact");
         console.log("fill the edit modal " + contact);
 

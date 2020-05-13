@@ -22,7 +22,7 @@ class GroupPageController {
         this.groupPageView.find(".name").html(sessionManager.get("username"));
 
         //Update the contact's values
-       // this.groupPageView.find("#modal-submit").on("click", (groupId) => this.update(groupId));
+       this.groupPageView.find("#modal-submit").on("click", (event) => this.update(event));
 
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.groupPageView);
@@ -50,17 +50,15 @@ class GroupPageController {
 
                 groupTable.append(nextGroup);
             }
-            $('.groupDelete').on("click", (event) => { console.log(event.currentTarget.dataset.groupid);
-            const groupId = event.currentTarget.dataset.groupid;
-            this.delete(groupId);
-            });
-            $('.groupEdit').on("click", (event) => {
-                console.log(event.currentTarget.dataset.groupid + "line 57");
-                const groupId = event.currentTarget.dataset.groupid;
-                console.log(event.currentTarget.dataset.name + "line 59");
-                const name = event.currentTarget.dataset.name;
 
-                this.update(groupId, name);
+            $('.groupEdit').on("click", (event) => {
+                this.groupPageView.find("#inputGroupName").val(event.currentTarget.dataset.name);
+            });
+
+            $('.groupDelete').on("click", (event) => {
+                console.log(event.currentTarget.dataset.groupid);
+                const groupId = event.currentTarget.dataset.groupid;
+                this.delete(groupId);
             });
 
 
@@ -88,16 +86,19 @@ class GroupPageController {
     }
 
     //to be fixed -rona
-    async update(groupId, name) {
+    async update(event) {
+        event.preventDefault();
         console.log("start update");
-        const groupName = this.groupPageView.find("#groupName").val();
-        console.log(groupName);
+        const groupid = $(".groupEdit").attr("data-groupid");
+        const name = $(".groupEdit").attr("data-name");
+        console.log(groupid +" " + name);
+        const newName = this.groupPageView.find("#inputGroupName").val();
         try {
-
-            const groupUpdateData = await this.groupRepository.update(groupId,groupName);
+            const groupUpdateData = await this.groupRepository.update(groupid,newName);
+            console.log(newName);
             console.log(groupUpdateData);
 
-
+            $("#editModal").modal('hide');
         } catch (e) {
             console.log(e);
 
