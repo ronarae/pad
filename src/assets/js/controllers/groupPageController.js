@@ -36,10 +36,17 @@ class GroupPageController {
     async getAll() {
         const user_id = sessionManager.get("user_id");
 
+        const groupTable = $("#groups");
+        //     $("#editModal").modal('hide');
+        //
+        //     //refresh na 1 second
+        //     setTimeout(function(){
+        //         window.location.reload();
+        //     }, 1000);
         try {
             const groupData = await this.groupRepository.getAll(user_id);
 
-            const groupTable = $("#groups");
+            // const groupTable = $("#groups");
             for (let i = 0; i < groupData.length; i++) {
                 let nextGroup = "<tr>";
                 nextGroup += `<td>${groupData[i].name}</td>`;
@@ -66,7 +73,7 @@ class GroupPageController {
                 const groupId = event.currentTarget.dataset.groupid;
                 this.delete(groupId);
             });
-            
+
         } catch (e) {
             console.log("error while fetching rooms", e);
             //for now just show every error on page, normally not all errors are appropriate for user
