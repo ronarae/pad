@@ -29,7 +29,7 @@ class ContactPageController {
         this.contactPageView.find("#del-modal-submit").on("click", (event) => this.delete(event));
 
         //TODO click event on edit button to fill modal inputfields
-        this.contactPageView.find("#editModal").on("click", (event) => this.fillEditModal(event));
+        // this.contactPageView.find("#editModal").on("click", (event) => this.fillEditModal(event));
 
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.contactPageView);
@@ -38,18 +38,21 @@ class ContactPageController {
 
     }
 
-    //Function vul in de modal, de betreffende data in de inputfields
-    fillEditModal(event){
-        const contact = $(this).data("data-contact");
-        console.log("fill the edit modal " + contact);
 
-        const editModal = $("#editModal");
-        editModal.find("#inputFirstname").text(contact.firstname);
-        editModal.find("#inputSurname").text(contact.surname);
-        editModal.find("#inputAddress").text(contact.address);
-        editModal.find("#inputEmailaddress").text(contact.emailaddress);
-        editModal.find("#inputPhonenumber").text(contact.phonenumber);
-    }
+
+    //Function vul in de modal, de betreffende data in de inputfields
+    // fillEditModal(){
+    //     // const contactId = id;
+    //     const contactId = $(this).data("data-contact");
+    //     console.log("fill the edit modal " + contact);
+    //
+    //     const editModal = $("#editModal");
+    //     editModal.find("#inputFirstname").val(contact.firstname);
+    //     editModal.find("#inputSurname").val(contact.surname);
+    //     editModal.find("#inputAddress").val(contact.address);
+    //     editModal.find("#inputEmailaddress").val(contact.emailaddress);
+    //     editModal.find("#inputPhonenumber").val(contact.phonenumber);
+    // }
 
     //om alle toegevoegde contacten op te halen
     async getAll() {
@@ -66,14 +69,37 @@ class ContactPageController {
                 nextContact += `<td>${contactData[i].address}</td>`;
                 nextContact += `<td>${contactData[i].emailaddress}</td>`;
                 nextContact += `<td>${contactData[i].phonenumber}</td>`;
-                nextContact += `<td><a class="btn btn-success" data-toggle="modal" data-target="#editModal" data-contact="${contactData[i]}" id="editbutton"  href="">Edit</a>
-                                <a class="btn btn-danger" data-toggle="modal" data-target="#deluser_modal" href="#">Delete</a>
-                                <input type="hidden" id="contact_id" value=${contactData[i].contact_id}"
+                nextContact += `<td><a class="editButton btn btn-success " data-toggle="modal" data-target="#editModal" 
+                                data-contactFName = "${contactData[i].firstname}" data-contactLName = "${contactData[i].surname}" 
+                                data-contactAddres = "${contactData[i].address}" data-contactNum="${contactData[i].phonenumber}" 
+                                data-contactMail="${contactData[i].emailaddress}" data-contactid = "${contactData[i].contact_id}" 
+                                id="editbutton"  href="">Edit</a>
+                                <a class="deleteButton btn btn-danger " data-toggle="modal" data-contactid= "${contactData[i].contact_id}" data-target="#deluser_modal" href="#">Delete</a>
                                 </td>`;
 
                 nextContact += "</tr>";
 
                 contactTable.append(nextContact);
+
+                $('.editButton').off().on("click", (event) => {
+                    event.preventDefault();
+                   console.log("Loading modal");
+                    this.contactPageView.find("#inputFirstname").val(event.currentTarget.dataset.contactfname);
+                    this.contactPageView.find("#inputSurname").val(event.currentTarget.dataset.contactlname);
+                    this.contactPageView.find("#inputPhonenumber").val(event.currentTarget.dataset.contactnum);
+                    this.contactPageView.find("#inputEmailaddress").val(event.currentTarget.dataset.contactmail);
+                    this.contactPageView.find("#inputAddress").val(event.currentTarget.dataset.contactaddres);
+                    this.contactPageView.find("#inputFirstname").data("contactId", event.currentTarget.dataset.contactid);
+
+                    console.log("Naam "+event.currentTarget.dataset.contactfname);
+                });
+
+
+                $('.deleteButton').on("click", (event) =>{
+                    console.log("Delete button called");
+                   const contactId = event.currentTarget.dataset.contactid;
+                   this.delete(contactId)
+                });
 
             }
         } catch (e) {
@@ -90,7 +116,7 @@ class ContactPageController {
         console.log("Opslaan");
         event.preventDefault();
         //Verzamelen van form gegevens
-        const id = this.contactPageView.find("#contact_id").val();
+        const id = this.contactPageView.find("#inputFirstname").data("contactId");
         const firstname = this.contactPageView.find("#inputFirstname").val();
         const surname = this.contactPageView.find("#inputSurname").val();
         const phonenumber = this.contactPageView.find("#inputPhonenumber").val();
@@ -98,11 +124,18 @@ class ContactPageController {
         const address = this.contactPageView.find("#inputAddress").val();
         console.log("input: "+ id, firstname,surname, phonenumber, emailaddress, address);
         try {
-            const userUpdate = await this.contactRepository.update(firstname,surname, phonenumber, emailaddress, address, id);
+            const userUpdate = await this.contactRepository.update(firstname,surname, address, emailaddress,phonenumber , id);
             console.log(userUpdate);
-
         } catch (e) {
             console.log(e);
+        } finally {
+            //refresh na 1 second
+            setTimeout(function(){
+                window.location.reload();
+            }, 1000);
+
+            console.log("Finally, close modal");
+            $("#editModal").modal('hide');
         }
     }
 
@@ -113,16 +146,21 @@ class ContactPageController {
 
 
     //Delete user
-    async delete(event) {
-        console.log("delete user")
-        event.preventDefault();
-        const id = this.contactPageView.find("#contact_id").val();
-        console.log("user " + id);
+    async delete(contactid) {
+        console.log("user delete" + contactid);
         try{
-            const userdelete = await this.contactRepository.delete(id);
+            const userdelete = await this.contactRepository.delete(contactid);
             console.log(userdelete);
+
+
         }catch (e) {
             console.log(e);
+        }finally {
+            setTimeout(function(){
+                window.location.reload();
+            }, 1000);
+
+            $("#deluser_modal").modal('hide');
         }
     }
 
