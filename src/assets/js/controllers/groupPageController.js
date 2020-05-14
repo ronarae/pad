@@ -66,8 +66,7 @@ class GroupPageController {
                 const groupId = event.currentTarget.dataset.groupid;
                 this.delete(groupId);
             });
-
-
+            
         } catch (e) {
             console.log("error while fetching rooms", e);
             //for now just show every error on page, normally not all errors are appropriate for user
@@ -85,36 +84,72 @@ class GroupPageController {
                 .fail(() => this.error());
         } catch (e) {
             console.log(e);
-
         }
-
     }
 
     //to be fixed -rona
     async update(event) {
-        event.preventDefault();
-        console.log("start update");
+        // event.preventDefault();
+        // console.log("start update");
         const groupId = this.groupPageView.find("#inputGroupName").data("groupId");
-        console.log(groupId + " hello");
+        // console.log(groupId + " hello");
         const newName = this.groupPageView.find("#inputGroupName").val();
-        try {
-            const groupUpdateData = await this.groupRepository.update(groupId,newName);
-            console.log(newName);
-            console.log(groupUpdateData);
+        // try {
+        //     const groupUpdateData = await this.groupRepository.update(groupId,newName);
+        //     console.log(newName);
+        //     console.log(groupUpdateData);
+        //
+        //     $("#editModal").modal('hide');
+        //
+        //     //refresh na 1 second
+        //     setTimeout(function(){
+        //         window.location.reload();
+        //     }, 1000);
+        //
+        // } catch (e) {
+        //     console.log(e);
+        //
+        // }
 
-            $("#editModal").modal('hide');
+        //Error strings
+        this.newgroupname = "Groepnaam";
+        this.emptyField = " mag niet leeg zijn";
+        const errors = [];
 
-            //refresh na 1 second
-            setTimeout(function(){
-                window.location.reload();
-            }, 1000);
+        //Check groupname
+        if (newName.length === 0 || newName.match(/^\s*$/)) { //empty field
+            document.getElementById("inputGroupName").setCustomValidity(this.newgroupname + this.emptyField);
+            errors.push({
+                message: this.newgroupname + this.emptyField
+            });
+        }
 
-        } catch (e) {
-            console.log(e);
-
+        // Check if errors did occur
+        if (0 < errors.length) {
+            //Show errors
+            let messages = "";
+            for (let i = 0; i < errors.length; i++) {
+                messages += errors[i].message + "\n";
+            }
+            console.log(messages)
+        } else {
+            try { //Send to database
+                event.preventDefault();
+                const groupUpdateData = await this.groupRepository.update(groupId,newName);
+                console.log(groupUpdateData);
+                app.loadController(CONTROLLER_GROUP_PAGE);
+            } catch (e) {
+                console.log(e);
+            } finally {
+                //refresh na 1 second
+                setTimeout(function(){
+                    window.location.reload();
+                }, 1000);
+                console.log("Finally, close modal");
+                $("#editModal").modal('hide');
+            }
         }
     }
-
 
     //Called when the contactPage.html fails to load
     error() {
