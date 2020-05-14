@@ -27,7 +27,7 @@ class GroupController {
         //verzamelen van form gegevens
         const name = this.createGroupView.find("#inputGroupsName").val();
         const user_id = sessionManager.get("user_id");
-        
+
         //Error strings
         this.groupname = "Groepnaam";
         this.emptyField = " mag niet leeg zijn";
