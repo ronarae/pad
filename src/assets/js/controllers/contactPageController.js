@@ -98,7 +98,7 @@ class ContactPageController {
                 $('.deleteButton').on("click", (event) =>{
                     console.log("Delete button called");
                    const contactId = event.currentTarget.dataset.contactid;
-                   this.delete(contactId)
+                   this.contactPageView.find("#inputFirstname").data("contactId", contactId);
                 });
 
             }
@@ -229,7 +229,9 @@ class ContactPageController {
 
 
     //Delete user
-    async delete(contactid) {
+    async delete(event) {
+        event.preventDefault();
+        const contactid = this.contactPageView.find("#inputFirstname").data("contactId");
         console.log("user delete" + contactid);
         try{
             const userdelete = await this.contactRepository.delete(contactid);
