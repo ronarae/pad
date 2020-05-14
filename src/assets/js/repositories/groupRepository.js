@@ -19,7 +19,6 @@ class GroupRepository {
             .doRequest("/groupPage/delete", {groupId: groupId});
     }
 
-    //to be fixed -rona
     async update(groupId, groupName){
         return await networkManager
             .doRequest("/groupPage/update", {
