@@ -38,17 +38,19 @@ class ContactPageController {
 
     }
 
+
+
     //Function vul in de modal, de betreffende data in de inputfields
     fillEditModal(){
-        const contact = $(this).data("data-contact");
+        const contactId = $(this).data("data-contact");
         console.log("fill the edit modal " + contact);
 
         const editModal = $("#editModal");
-        editModal.find("#inputFirstname").text(contact.firstname);
-        editModal.find("#inputSurname").text(contact.surname);
-        editModal.find("#inputAddress").text(contact.address);
-        editModal.find("#inputEmailaddress").text(contact.emailaddress);
-        editModal.find("#inputPhonenumber").text(contact.phonenumber);
+        editModal.find("#inputFirstname").val(contact.firstname);
+        editModal.find("#inputSurname").val(contact.surname);
+        editModal.find("#inputAddress").val(contact.address);
+        editModal.find("#inputEmailaddress").val(contact.emailaddress);
+        editModal.find("#inputPhonenumber").val(contact.phonenumber);
     }
 
     //om alle toegevoegde contacten op te halen
@@ -98,11 +100,13 @@ class ContactPageController {
         const address = this.contactPageView.find("#inputAddress").val();
         console.log("input: "+ id, firstname,surname, phonenumber, emailaddress, address);
         try {
-            const userUpdate = await this.contactRepository.update(firstname,surname, phonenumber, emailaddress, address, id);
+            const userUpdate = await this.contactRepository.update(firstname,surname, address, emailaddress,phonenumber , id);
             console.log(userUpdate);
-
         } catch (e) {
             console.log(e);
+        } finally {
+            console.log("Finally, close modal");
+            $("#editModal").modal('hide');
         }
     }
 
