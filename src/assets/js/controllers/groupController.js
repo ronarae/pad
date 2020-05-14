@@ -1,6 +1,6 @@
 /**
- * @author Yazan Mousa
- * this class is resposible for makeing a group for users.
+ * @author Yazan Mousa & Niels Roeleveld
+ * this class is responsible for making a group for users.
  */
 
 class GroupController {
@@ -9,10 +9,7 @@ class GroupController {
         $.get("views/group.html")
             .done((htmlData) => this.setup(htmlData))
             .fail(() => this.error());
-
-        
     }
-
 
     setup(htmlData) {
         //toevoegen html aan .content div
@@ -20,35 +17,51 @@ class GroupController {
 
         $(".content").empty().append(this.createGroupView);
         this.createGroupView.find(".btn").on("click", (event) => this.onAddEvent(event))
-        
-
     }
 
     async onAddEvent(event) { // om niet met callbacks te werken
 
-        event.preventDefault(); // wist ik niet
-        //om bij een form niet te refrshen
+        // event.preventDefault();
+        //om bij een form niet te refreshen
 
         //verzamelen van form gegevens
         const name = this.createGroupView.find("#inputGroupsName").val();
         const user_id = sessionManager.get("user_id");
+        
+        //Error strings
+        this.groupname = "Groepnaam";
+        this.emptyField = " mag niet leeg zijn";
+        const errors = [];
 
-        console.log(name);
-        // versturen naar repostory
-
-        //await this.groupRepository.create(name, user_id);
-        try{
-            const groupId = await this.groupRepository.create(name, user_id); // wist ik niet
-            console.log(groupId);
-            app.loadController(CONTROLLER_WELCOME);
-        } catch (e) {
-            console.log(e);
+        //Check groupname
+        if (name.length === 0 || name.match(/^\s*$/)) { //empty field
+            document.getElementById("inputGroupsName").setCustomValidity(this.groupname + this.emptyField);
+            errors.push({
+                message: this.groupname + this.emptyField
+            });
         }
 
-       
-
-
+        // Check if errors did occur
+        if (0 < errors.length) {
+            //Show errors
+            let messages = "";
+            for (let i = 0; i < errors.length; i++) {
+                messages += errors[i].message + "\n";
+            }
+            console.log(messages)
+        } else {
+            try { //Send to database
+                event.preventDefault();
+                console.log(`${name}`);
+                const groupId = await this.groupRepository.create(name, user_id);
+                console.log(groupId);
+                app.loadController(CONTROLLER_GROUP_PAGE);
+            } catch (e) {
+                console.log(e);
+            }
+        }
     }
+
     error() {
        $(".content").html("Failed to load content")
     }

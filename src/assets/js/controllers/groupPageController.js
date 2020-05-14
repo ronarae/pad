@@ -43,10 +43,12 @@ class GroupPageController {
             for (let i = 0; i < groupData.length; i++) {
                 let nextGroup = "<tr>";
                 nextGroup += `<td>${groupData[i].name}</td>`;
-                nextGroup += `<td> <a class = "groupDelete btn btn-danger" data-groupid = "${groupData[i].groupId}">Delete </a>
+                nextGroup += `<td> 
                                 <a class= "groupEdit btn btn-success" data-toggle="modal" data-target="#editModal" 
                                 data-contact="${groupData[i]}" data-groupid = "${groupData[i].groupId}" id="editbutton" 
-                                data-name = "${groupData[i].name}" >Edit</a> `;
+                                data-name = "${groupData[i].name}" >Edit</a>             
+                                <a class = "groupDelete btn btn-danger" data-groupid = "${groupData[i].groupId}">Delete </a>`;
+
                 nextGroup += "</tr>";
 
                 groupTable.append(nextGroup);
