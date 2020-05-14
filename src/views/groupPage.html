@@ -37,10 +37,68 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleer</button>
                     <button type="submit" class="btn btn-primary" id="modal-submit">Opslaan</button>
+
                 </div>
             </div>
         </div>
-
-
     </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLongTitle">Groep verwijderen</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="edit-form">
+
+                        <div class="error mb-3 text-danger"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleer</button>
+                    <button type="submit" class="btn btn-primary" id="modal-delete">Verwijderen</button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="container contact-clean">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="contact-clean text-center">
+                                    <h2>Weet u zeker dat u uw groep wilt verwijderen?</h2>
+                                    <h6>
+                                        <strong
+                                        >LET OP: Deze actie kan niet ongedaan worden gemaakt
+                                            indien er geklikt wordt op 'OK' !</strong
+                                        >
+                                    </h6>
+                                </div>
+                                <div class="text-center pt-5">
+                                    <a
+                                            href="instellingen.html"
+                                            type="button"
+                                            class="btn btn-secondary btn_blue"
+                                            id="annuleren"
+                                    >
+                                        Annuleren
+                                    </a>
+                                    <button
+                                            type="button"
+                                            class="btn btn-secondary btn_red"
+                                            id="gebruikerVerwijderen"
+                                    >
+                                        OK
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
