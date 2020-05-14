@@ -188,7 +188,6 @@ app.post("/groupPage/delete", (req, res) => {
 });
 
 // Groep wijzigen
-//to be fixed -- rona
 app.post("/groupPage/update", (req, res) => {
 
     db.handleQuery(connectionPool, {
