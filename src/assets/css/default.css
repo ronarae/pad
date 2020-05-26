@@ -18,11 +18,15 @@ h1.mt-5.welcome-title {
     margin: 0 auto;
     background-color: #d39e00;
 }
-.icon {
+.icon, .iconLogin {
     border: dashed 3px black;
     border-radius: 15%;
     width: 200px;
     height: 200px;
+}
+
+.iconLogin {
+    height: 100px;
 }
 
 .fa-ambulance, .fa-info {
@@ -34,9 +38,19 @@ h1.mt-5.welcome-title {
     font-weight: bolder;
 }
 
-.login-container {
+.box-container {
     border: 3px dashed black;
     border-radius: 5%;
     margin: 50px;
     padding: 25px;
 }
+
+.table thead th, tr, .table-bordered td, .table-bordered th {
+    border: 4px dotted black !important;
+}
+
+
+
+
+
+
