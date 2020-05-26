@@ -49,6 +49,11 @@ h1.mt-5.welcome-title {
     border: 4px dotted black !important;
 }
 
+/*font*/
+a#editbutton, a.groupDelete.btn.btn-danger{
+    color: white;
+}
+
 
 
 
