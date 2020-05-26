@@ -26,6 +26,9 @@ class GroupPageController {
         //Update the groups value
         this.groupPageView.find("#modal-submit").on("click", (event) => this.update(event));
 
+
+        //Delete the group
+        this.groupPageView.find("#del-modal-submit").on("click", (event)=> this.delete(event));
         //Empty the content-div and add the resulting view to the page
         $(".content").empty().append(this.groupPageView);
 
@@ -54,7 +57,8 @@ class GroupPageController {
                                 <a class= "groupEdit btn btn-success" data-toggle="modal" data-target="#editModal" 
                                 data-contact="${groupData[i]}" data-groupid = "${groupData[i].groupId}" id="editbutton" 
                                 data-name = "${groupData[i].name}" >Edit</a>             
-                                <a class = "groupDelete btn btn-danger" data-groupid = "${groupData[i].groupId}">Delete </a>`;
+                                <a class = "groupDelete btn btn-danger" data-toggle="modal" data-target="#deleteModal" 
+                                data-groupid = "${groupData[i].groupId}">Delete </a>`;
 
                 nextGroup += "</tr>";
 
@@ -71,7 +75,7 @@ class GroupPageController {
             $('.groupDelete').on("click", (event) => {
                 console.log(event.currentTarget.dataset.groupid);
                 const groupId = event.currentTarget.dataset.groupid;
-                this.delete(groupId);
+                this.groupPageView.find("#inputGroupName").data("groupId",groupId);
             });
 
         } catch (e) {
@@ -81,16 +85,20 @@ class GroupPageController {
         }
     }
 
-    async delete(groupId){
+    async delete(event){
+        event.preventDefault();
+        const groupId = this.groupPageView.find("#inputGroupName").data("groupId");
         try {
             const groupDeleteData = await this.groupRepository.delete(groupId);
             console.log(groupDeleteData);
-            
-            $.get("views/groupPage.html")
-                .done((htmlData) => this.setup(htmlData))
-                .fail(() => this.error());
+
         } catch (e) {
             console.log(e);
+        }finally {
+          setTimeout(function () {
+                window.location.reload();
+          }, 1000);
+            $("#deleteModal").modal('hide');
         }
     }
 
@@ -152,6 +160,7 @@ class GroupPageController {
                 setTimeout(function(){
                     window.location.reload();
                 }, 1000);
+
                 console.log("Finally, close modal");
                 $("#editModal").modal('hide');
             }
