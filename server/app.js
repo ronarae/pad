@@ -50,19 +50,7 @@ app.post("/user/login", (req, res) => {
     }, (err) => res.status(badRequestCode).json({reason: err}));
 });
 
-//dummy data example - rooms
-app.post("/room_example", (req, res) => {
 
-    db.handleQuery(connectionPool, {
-            query: "SELECT id, surface FROM room_example WHERE id = ?",
-            values: [req.body.id]
-        }, (data) => {
-            //just give all data back as json
-            res.status(httpOkCode).json(data);
-        }, (err) => res.status(badRequestCode).json({reason: err})
-    );
-
-});
 
 //Gebruiker toevoegen aan DB
 app.post("/register", (req, res) => {

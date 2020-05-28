@@ -21,7 +21,18 @@ class GroupPageController {
         this.groupPageView = $(htmlData);
 
         //Set the name in the view from the session
-        this.groupPageView.find(".name").html(sessionManager.get("username"));
+        // this.groupPageView.find(".name").html(sessionManager.get("username"));
+
+
+
+        this.groupPageView.find("#editbutton").on("click", (event) => {
+            console.log("edit button")
+            $(".modal-body").toggle(function () {
+                $(this).animate({height:400},200);
+            },function () {
+                $(this).animate({height:200},200);
+            })
+        })
 
         //Update the groups value
         this.groupPageView.find("#modal-submit").on("click", (event) => this.update(event));
@@ -40,12 +51,7 @@ class GroupPageController {
         const user_id = sessionManager.get("user_id");
 
         const groupTable = $("#groups");
-        //     $("#editModal").modal('hide');
-        //
-        //     //refresh na 1 second
-        //     setTimeout(function(){
-        //         window.location.reload();
-        //     }, 1000);
+
         try {
             const groupData = await this.groupRepository.getAll(user_id);
 
@@ -54,9 +60,9 @@ class GroupPageController {
                 let nextGroup = "<tr>";
                 nextGroup += `<td>${groupData[i].name}</td>`;
                 nextGroup += `<td> 
-                                <a class= "groupEdit btn btn-success" data-toggle="modal" data-target="#editModal" 
+                                <a class= "groupEdit btn btn-info" data-toggle="modal" data-target="#editModal" 
                                 data-contact="${groupData[i]}" data-groupid = "${groupData[i].groupId}" id="editbutton" 
-                                data-name = "${groupData[i].name}" >Edit</a>             
+                                data-name = "${groupData[i].name}" >View</a>             
                                 <a class = "groupDelete btn btn-danger" data-toggle="modal" data-target="#deleteModal" 
                                 data-groupid = "${groupData[i].groupId}">Delete </a>`;
 
@@ -109,22 +115,7 @@ class GroupPageController {
         const groupId = this.groupPageView.find("#inputGroupName").data("groupId");
         // console.log(groupId + " hello");
         const newName = this.groupPageView.find("#inputGroupName").val();
-        // try {
-        //     const groupUpdateData = await this.groupRepository.update(groupId,newName);
-        //     console.log(newName);
-        //     console.log(groupUpdateData);
-        //
-        //     $("#editModal").modal('hide');
-        //
-        //     //refresh na 1 second
-        //     setTimeout(function(){
-        //         window.location.reload();
-        //     }, 1000);
-        //
-        // } catch (e) {
-        //     console.log(e);
-        //
-        // }
+
 
         //Error strings
         this.newgroupname = "Groepnaam";

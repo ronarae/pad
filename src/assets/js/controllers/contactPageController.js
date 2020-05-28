@@ -38,22 +38,6 @@ class ContactPageController {
 
     }
 
-
-
-    //Function vul in de modal, de betreffende data in de inputfields
-    // fillEditModal(){
-    //     // const contactId = id;
-    //     const contactId = $(this).data("data-contact");
-    //     console.log("fill the edit modal " + contact);
-    //
-    //     const editModal = $("#editModal");
-    //     editModal.find("#inputFirstname").val(contact.firstname);
-    //     editModal.find("#inputSurname").val(contact.surname);
-    //     editModal.find("#inputAddress").val(contact.address);
-    //     editModal.find("#inputEmailaddress").val(contact.emailaddress);
-    //     editModal.find("#inputPhonenumber").val(contact.phonenumber);
-    // }
-
     //om alle toegevoegde contacten op te halen
     async getAll() {
         const user_id = sessionManager.get("user_id");
@@ -204,22 +188,6 @@ class ContactPageController {
                     $("#editModal").modal('hide');
             }
         }
-
-        // console.log("input: "+ id, firstname,surname, phonenumber, emailaddress, address);
-        // try {
-        //     const userUpdate = await this.contactRepository.update(firstname,surname, address, emailaddress,phonenumber , id);
-        //     console.log(userUpdate);
-        // } catch (e) {
-        //     console.log(e);
-        // } finally {
-        //     //refresh na 1 second
-        //     setTimeout(function(){
-        //         window.location.reload();
-        //     }, 1000);
-        //
-        //     console.log("Finally, close modal");
-        //     $("#editModal").modal('hide');
-        // }
     }
 
     //Called when the contactPage.html fails to load

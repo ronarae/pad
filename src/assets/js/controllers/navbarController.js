@@ -18,14 +18,14 @@ class NavbarController {
         //Find all anchors and register the click-event
         sidebarView.find("a").on("click", this.handleClickMenuItem);
 
-        // //TODO: Add logic here to determine which menu items should be visible or not
-        // if(sessionManager.get("username")){
-        //    const navOption = sidebarView.find("a").attr("data-controller=login");
-        //    navOption.empty();
-        //    console.log();
-        // }else{
-        //
-        // }
+
+        //show user's name
+        sidebarView.find(".name").append(sessionManager.get("username"));
+
+        //When valid user is logged in, remove login option
+        if(sessionManager.get("username")){
+            $("a[data-controller$='login']").remove();
+        }
 
         //Empty the sidebar-div and add the resulting view to the page
         $(".sidebar").empty().append(sidebarView);
@@ -46,4 +46,7 @@ class NavbarController {
     error() {
         $(".content").html("Failed to load the navbar!");
     }
+
+
+
 }
