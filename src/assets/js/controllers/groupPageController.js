@@ -28,9 +28,9 @@ class GroupPageController {
         this.groupPageView.find("#editbutton").on("click", (event) => {
             console.log("edit button")
             $(".modal-body").toggle(function () {
-                $(this).animate({height:400},200);
+                this.animate({height:400},200);
             },function () {
-                $(this).animate({height:200},200);
+                this.animate({height:200},200);
             })
         })
 
@@ -89,6 +89,10 @@ class GroupPageController {
             //for now just show every error on page, normally not all errors are appropriate for user
             groupData.text(e)
         }
+    }
+
+    async getContact(event){
+
     }
 
     async delete(event){

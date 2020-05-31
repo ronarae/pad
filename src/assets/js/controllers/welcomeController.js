@@ -24,6 +24,7 @@ class WelcomeController {
         $(".content").empty().append(this.welcomeView);
 
         // this.fetchRooms(1256);
+        this.welcomeView.reload();
     }
     /**
      * async function that retrieves a kamer by its id via repository

@@ -23,11 +23,11 @@ class NavbarController {
         this.sidebarView.find(".name").append(sessionManager.get("username"));
 
         //When valid user is logged in, remove login option
-        if(sessionManager.get("username")){
+        if(!sessionManager.get("username")){
             console.log("navbar logic")
-            this.handleNavLogin();
-        }else{
             this.handleNavLogout();
+        }else{
+            this.handleNavLogin();
         }
 
 
@@ -37,26 +37,28 @@ class NavbarController {
     }
 
     handleNavLogout(){
-        this.sidebarView.find(".name").hide();
-        this.sidebarView.find("a[data-controller$='logout']").hide();
-        this.sidebarView.find("a[data-controller$='contacts']").hide();
-        this.sidebarView.find("a[data-controller$='contactPage']").hide();
-        this.sidebarView.find("a[data-controller$='group']").hide();
-        this.sidebarView.find("a[data-controller$='groupPage']").hide();
 
-       this.sidebarView.find("a[data-controller$='login']").show();
+        this.sidebarView.find(".name").hide()
+        this.sidebarView.find("a[data-controller$='logout']").hide()
+        this.sidebarView.find("a[data-controller$='contacts']").hide()
+        this.sidebarView.find("a[data-controller$='contactPage']").hide()
+        this.sidebarView.find("a[data-controller$='group']").hide()
+        this.sidebarView.find("a[data-controller$='groupPage']").hide()
+
+       this.sidebarView.find("a[data-controller$='login']").show()
        this.sidebarView.find("a[data-controller$='register']").show();
     }
 
     handleNavLogin(){
-        this.sidebarView.find("a[data-controller$='login']").hide();
-        this.sidebarView.find("a[data-controller$='register']").hide();
 
-        this.sidebarView.find(".name").show();
-        this.sidebarView.find("a[data-controller$='logout']").show();
-        this.sidebarView.find("a[data-controller$='contacts']").show();
-        this.sidebarView.find("a[data-controller$='contactPage']").show();
-        this.sidebarView.find("a[data-controller$='group']").show();
+        this.sidebarView.find("a[data-controller$='login']").hide()
+        this.sidebarView.find("a[data-controller$='register']").hide()
+
+        this.sidebarView.find(".name").show()
+        this.sidebarView.find("a[data-controller$='logout']").show()
+        this.sidebarView.find("a[data-controller$='contacts']").show()
+        this.sidebarView.find("a[data-controller$='contactPage']").show()
+        this.sidebarView.find("a[data-controller$='group']").show()
         this.sidebarView.find("a[data-controller$='groupPage']").show();
 
     }
