@@ -20,9 +20,9 @@ class GroupController {
         this.createGroupView = $(htmlData);
 
         $(".content").empty().append(this.createGroupView);
-        this.createGroupView.find(".btn").on("click", (event) => this.onAddEvent(event))
+        this.createGroupView.find("#submit").on("click", (event) => this.onAddEvent(event))
 
-        this.createGroupView.find("#addSelContact").on("click", (event) => this.addContact(event));
+        $("#addSelContact").on("click", (event) => this.addContact(event));
 
 
 
@@ -31,7 +31,7 @@ class GroupController {
 
     async onAddEvent(event) { // om niet met callbacks te werken
 
-        // event.preventDefault();
+        event.preventDefault();
         //om bij een form niet te refreshen
 
         //verzamelen van form gegevens
@@ -70,13 +70,13 @@ class GroupController {
                     //After creating group, update contact's group_id on the proper group
                     //variable of sel array
                     // let contacts = ;
-                    let selContact = this.createGroupView.find("#selectedContact").data("contactID");
+                    const sel = this.getArray();
                     for (let i = 0; i < sel.length ; i++) {
-
+                        console.log(sel[i]);
+                        const contactUpdate = await this.groupRepository.contactAdd(groupId, sel[i]);
+                        console.log(contactUpdate);
                     }
 
-                    const contactUpdate = await this.groupRepository.contactAdd(groupId, user_id);
-                    console.log(contactUpdate);
                 }catch (e) {
                     console.error(e);
                 }
@@ -89,26 +89,38 @@ class GroupController {
         }
     }
 
-    async addContact(){
-        console.log("Add contact button pressed");
 
-        //Get selected contact's id
+    getArray(){
         let sel = $('input[type=checkbox]:checked').map(function(_, el) {
             return $(el).val();
         }).get();
-         console.log(sel);
+        console.log(sel);
+        return sel;
+    }
 
+    addContact(event){
+        event.preventDefault();
+        console.log("Add contact button pressed");
+        //Get selected contact's id
+
+         const contact = this.getArray();
 
         try{
+
+
             let contactTable = $("#rowSel");
-            for (let i = 0; i < sel.length; i++) {
+            contactTable.empty();
+
+            for (let i = 0; i < contact.length; i++) {
                 let nextContact = "<li>";
-                nextContact += `<a>${sel[i]}</a>`;
+                nextContact += `<a>${contact[i]}</a>`;
                 nextContact += `<span class="close">\u00D7</span>`;
                 nextContact += "</li>";
 
                 contactTable.append(nextContact);
             }
+
+
         }catch (e) {
             console.error(e);
         }

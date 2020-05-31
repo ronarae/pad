@@ -20,9 +20,9 @@ class GroupRepository {
     }
 
 
-    async contactAdd(group_id, user_id){
+    async contactAdd(group_id, contact_id){
         return await networkManager
-            .doRequest("/group/update", {group_id: group_id, user_id: user_id});
+            .doRequest("/group/update", {group_id: group_id, contact_id: contact_id,});
     }
 
     async delete(groupId){

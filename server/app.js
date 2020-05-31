@@ -125,10 +125,10 @@ app.post("/group/get", (req, res) => {
 });
 //Contact wijzigen in groep
 app.post("/group/update", (req, res) => {
-
+//spooky query, for some reason "= 'id'" error which is not present with the query underneath
     db.handleQuery(connectionPool, {
-            query: "UPDATE contact SET group_id = ? WHERE contact_id = ?",
-            values: [req.body.group_id, req.body.user_id]
+            query: "UPDATE contact SET group_id= ? WHERE contact_id = ?",
+            values: [req.body.group_id, req.body.contact_id]
         }, (data) => {
             //just give all data back as json
             res.status(httpOkCode).json(data);
