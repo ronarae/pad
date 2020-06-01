@@ -14,11 +14,21 @@ class GroupRepository {
             .doRequest("/groupPage", {user_id: user_id});
     }
 
+    async getGroupContact(group_id){
+        return await networkManager
+            .doRequest("/groupPage/getCon", {group_id:group_id});
+    }
+
     async getAllContact(user_id){
         return await networkManager
             .doRequest("/group/get", {user_id: user_id});
     }
 
+
+    async removeContact(contact_id){
+        return await networkManager
+            .doRequest("/group/remove",{contact_id: contact_id});
+    }
 
     async contactAdd(group_id, contact_id){
         return await networkManager

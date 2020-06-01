@@ -65,7 +65,10 @@ class GroupController {
                 console.log(`${name}`);
                 const groupId = await this.groupRepository.create(name, user_id);
                 console.log(groupId);
+                //assign id value to new variable
+                const newGroupId = groupId['id'];
 
+                console.log(newGroupId)
                 try{
                     //After creating group, update contact's group_id on the proper group
                     //variable of sel array
@@ -73,7 +76,7 @@ class GroupController {
                     const sel = this.getArray();
                     for (let i = 0; i < sel.length ; i++) {
                         console.log(sel[i]);
-                        const contactUpdate = await this.groupRepository.contactAdd(groupId, sel[i]);
+                        const contactUpdate = await this.groupRepository.contactAdd(newGroupId, sel[i]);
                         console.log(contactUpdate);
                     }
 
@@ -89,7 +92,7 @@ class GroupController {
         }
     }
 
-
+    //Get function of selected contact's
     getArray(){
         let sel = $('input[type=checkbox]:checked').map(function(_, el) {
             return $(el).val();
@@ -100,17 +103,16 @@ class GroupController {
 
     addContact(event){
         event.preventDefault();
-        console.log("Add contact button pressed");
-        //Get selected contact's id
 
+        console.log("Add contact button pressed");
+
+        //Get selected contact's id
          const contact = this.getArray();
 
         try{
-
-
             let contactTable = $("#rowSel");
             contactTable.empty();
-
+            //Need to display names instead of contact_id's
             for (let i = 0; i < contact.length; i++) {
                 let nextContact = "<li>";
                 nextContact += `<a>${contact[i]}</a>`;
@@ -119,12 +121,9 @@ class GroupController {
 
                 contactTable.append(nextContact);
             }
-
-
         }catch (e) {
             console.error(e);
         }
-
     }
 
     async getAllContacts(){
@@ -145,38 +144,6 @@ class GroupController {
 
                 contactList.append(nextContact);
             }
-
-            // this.createGroupView.find('#addSelContact').on("click", (event) =>{
-            //     event.preventDefault();
-            //     let sel = [];
-            //
-            //     $.each($('input[type=checkbox]:checked'), ()=>{
-            //         const contactName = event.currentTarget.dataset.contactFname;
-            //         const contactSurname = this.createGroupView.data("contactSurname", event.currentTarget.dataset.contactSurname);
-            //         sel.push( event.currentTarget.dataset.contactFname+ " "+ contactSurname );
-            //     });
-            //
-            //
-            //     console.log(sel);
-            //
-            //     try{
-            //
-            //         let contactTable = $("#selRow");
-            //         for (let i = 0; i < sel.length; i++) {
-            //             let nextContact = "<tr>";
-            //             nextContact += `<td>{$sel[i]}</td>;`
-            //
-            //             nextContact += "</tr>";
-            //
-            //             contactTable.append(nextContact);
-            //         }
-            //     }catch (e) {
-            //         console.error(e);
-            //     }
-            //
-            // })
-
-
         }catch (e) {
             console.error(e);
             contactList.text(e)
