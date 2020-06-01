@@ -4,3 +4,59 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+.bg-background {
+    background-color: #d39e00;
+}
+
+/* WELCOME PAGE */
+h1.mt-5.welcome-title {
+    width: 900px;
+    padding: 15px;
+    border: 4px solid black;
+    text-align: center;
+    margin: 0 auto;
+    background-color: #d39e00;
+}
+.icon, .iconLogin {
+    border: dashed 3px black;
+    border-radius: 15%;
+    width: 200px;
+    height: 200px;
+}
+
+.iconLogin {
+    height: 100px;
+}
+
+.fa-ambulance, .fa-info {
+    padding: 41px 35px;
+}
+
+.title-caption {
+    font-size: 35px;
+    font-weight: bolder;
+}
+
+.box-container {
+    border: 3px dashed black;
+    border-radius: 5%;
+    margin: 50px;
+    padding: 25px;
+}
+
+.table thead th, tr, .table-bordered td, .table-bordered th {
+    border: 4px dotted black !important;
+}
+
+/*font*/
+a#editbutton, a.groupDelete.btn.btn-danger{
+    color: white;
+}
+
+
+
+
+
+
+

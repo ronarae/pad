@@ -50,19 +50,7 @@ app.post("/user/login", (req, res) => {
     }, (err) => res.status(badRequestCode).json({reason: err}));
 });
 
-//dummy data example - rooms
-app.post("/room_example", (req, res) => {
 
-    db.handleQuery(connectionPool, {
-            query: "SELECT id, surface FROM room_example WHERE id = ?",
-            values: [req.body.id]
-        }, (data) => {
-            //just give all data back as json
-            res.status(httpOkCode).json(data);
-        }, (err) => res.status(badRequestCode).json({reason: err})
-    );
-
-});
 
 //Gebruiker toevoegen aan DB
 app.post("/register", (req, res) => {
@@ -120,6 +108,36 @@ app.post("/group", (req, res) => {
         }, (err) => res.status(badRequestCode).json({reason: err})
     );
     });
+
+
+//Haal contacten op
+app.post("/group/get", (req, res) => {
+
+    db.handleQuery(connectionPool, {
+            query: "SELECT * FROM contact WHERE user_id = ?",
+            values: [req.body.user_id]
+        }, (data) => {
+            //just give all data back as json
+        console.log("succesfull data");
+            res.status(httpOkCode).json(data);
+        }, (err) => res.status(badRequestCode).json({reason: err})
+    );
+});
+//Contact wijzigen in groep
+app.post("/group/update", (req, res) => {
+//spooky query, for some reason "= 'id'" error which is not present with the query underneath
+    db.handleQuery(connectionPool, {
+            query: "UPDATE contact SET group_id= ? WHERE contact_id = ?",
+            values: [req.body.group_id, req.body.contact_id]
+        }, (data) => {
+            //just give all data back as json
+            res.status(httpOkCode).json(data);
+        }, (err) => res.status(badRequestCode).json({reason: err})
+    );
+});
+
+
+
 
 // Contacten weergeven
 app.post("/contactPage", (req, res) => {
