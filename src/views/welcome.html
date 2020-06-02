@@ -1,44 +1,70 @@
-
-<div class="row">
-    <div class="col-lg-12 text-center">
-        <h1 class="mt-5 welcome-title"> Welkom bij het [ BENS - 8 ]</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h1 class="mt-5 welcome-title"> Welkom bij [ BENS - 8 ]</h1>
+        </div>
     </div>
-</div>
 
-<div class="row text-lg-center">
-    <div class="col-lg-4 offset-2" >
-        <br><br>
-        <i class="icon fas fa-ambulance fa-7x" data-toggle="modal" data-target="#emergencyCal_modal"></i><br>
-        <p class="title-caption">112</p>
+    <div class="row text-lg-center">
+        <div class="col-lg-4 offset-2">
+            <br><br>
+            <i class="icon fas fa-ambulance fa-7x" data-toggle="modal" data-target="#emergencyCal_modal"></i><br>
+            <p class="title-caption">112</p>
+        </div>
+        <div class="col-lg-4">
+            <br><br>
+            <i class="icon fas fa-info fa-7x" data-toggle="modal" data-target="#info_modal"></i><br>
+            <p class="title-caption text-uppercase">informatie</p>
+        </div>
     </div>
-    <div class="col-lg-4">
-        <br><br>
-        <i class="icon fas fa-info fa-7x" ></i><br>
-        <p class="title-caption text-uppercase">informatie</p>
-    </div>
-</div>
 
 
+    <!--Modal for calling emergency number-->
+    <div class="modal fade" id="emergencyCal_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-<!--modal for calling emergency number-->
-<div class="modal fade" id="emergencyCal_modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Oproep uitvoeren</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
 
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Oproep uitvoeren</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Bellen 112
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" data-dismiss="modal">Ophangen</button>
+                </div>
             </div>
+        </div>
+    </div>
 
-            <!-- Modal body -->
-            <div class="modal-body">
-                Bellen 112
-            </div>
+    <!--Modal for showing information-->
+    <div class="modal fade" id="info_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-danger" data-dismiss="modal">Ophangen</button>
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Informatie</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Hulp nodig? Bekijk
+                    <a href="assets/pdf/handleiding.pdf" target="_blank">hier</a>
+                    de handleiding!
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" data-dismiss="modal">Sluiten</button>
+                </div>
             </div>
         </div>
     </div>

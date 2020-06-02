@@ -38,6 +38,17 @@ class GroupPageController {
         this.groupPageView.find("#modal-submit").on("click", (event) => this.update(event));
 
 
+        //Get ungrouped contact's
+        this.groupPageView.find("#openContactButton").on("click", (event) => this.getUngroup(event));
+
+        //Update contact to new group
+        this.groupPageView.find("#AddContacts").on("click", (event)=> this.addContact(event));
+
+
+        //Delete contact from group
+        this.groupPageView.find("#del-contact-submit").on("click", (event => this.removeContact(event)));
+
+
         //Delete the group
         this.groupPageView.find("#del-modal-submit").on("click", (event)=> this.delete(event));
         //Empty the content-div and add the resulting view to the page
@@ -45,6 +56,85 @@ class GroupPageController {
 
         this.getAll();
     }
+
+
+
+
+    //Get function of selected contact's
+    getArray(){
+        let sel = $('input[type=checkbox]:checked').map(function(_, el) {
+            return $(el).val();
+        }).get();
+        console.log(sel);
+        return sel;
+    }
+
+    //Add new contact's to the group
+    async addContact(event){
+        event.preventDefault();
+        console.log("Start add contact")
+
+        const group_id = this.groupPageView.find("#openContactButton").attr("data-groupid");
+        const newGroup = this.getArray();
+
+        console.log( " group id "+group_id+" contact id "+newGroup);
+
+        try{
+            for (let i = 0; i < newGroup.length; i++) {
+                const addContact = await this.groupRepository.contactAdd(group_id,newGroup[i]);
+                console.log(addContact);
+            }
+
+        }catch (e) {
+            console.error(e);
+        }finally {
+            this.groupPageView.find("#editModal").modal('toggle');
+            await this.getContact( this.groupPageView.find("#inputGroupName").data("groupId"));
+        }
+
+
+    }
+
+
+    //Get all ungrouped contact's
+    async getUngroup(event){
+        event.preventDefault();
+        const user_id = sessionManager.get("user_id");
+
+        this.groupPageView.find("#editModal").modal('toggle');
+
+        const groupTable = $("#unselectedContacts");
+
+        try{
+            groupTable.empty();
+            const ungroupData = await this.groupRepository.getUngroup(user_id);
+
+            if(ungroupData == 0){
+                console.log("Geen ungrouped contacts meer, voeg meerder contacten");
+                const errorMsg = `<h2>"Geen contacten meer"</h2>`;
+
+                groupTable.append(errorMsg);
+            }else{
+                for (let i = 0; i <ungroupData.length ; i++) {
+                    let nextGroup = "<tr>";
+                    nextGroup += `<td><input type="checkbox" class=" boxform-check-input" id="ungroupSelect"value="${ungroupData[i].contact_id}"><span class="checkmark"></span></td>"`;
+                    nextGroup += `<td>${ungroupData[i].firstname}</td>`;
+                    nextGroup += `<td>${ungroupData[i].surname}</td>`;
+                    nextGroup += `<td>${ungroupData[i].phonenumber}</td>`;
+
+                    nextGroup += "</tr>";
+
+                    groupTable.append(nextGroup);
+                }
+            }
+
+
+        }catch (e) {
+            console.error(e);
+        }
+    }
+
+
 
     //om alle toegevoegde contacten op te halen
     async getAll() {
@@ -55,7 +145,7 @@ class GroupPageController {
         try {
             const groupData = await this.groupRepository.getAll(user_id);
 
-            // const groupTable = $("#groups");
+
             for (let i = 0; i < groupData.length; i++) {
                 let nextGroup = "<tr>";
                 nextGroup += `<td>${groupData[i].name}</td>`;
@@ -76,6 +166,7 @@ class GroupPageController {
                 this.groupPageView.find("#inputGroupName").val(event.currentTarget.dataset.name);
                 this.groupPageView.find("#inputGroupName").data("groupId", event.currentTarget.dataset.groupid);
                 console.log(event.currentTarget.dataset.groupid);
+                this.getContact(event.currentTarget.dataset.groupid);
             });
 
             $('.groupDelete').on("click", (event) => {
@@ -91,10 +182,64 @@ class GroupPageController {
         }
     }
 
-    async getContact(event){
 
+    //Promise get contact from group
+    async getContact(id){
+        console.log("Get groupId "+ id);
+        const groupId = id;
+
+
+        //after loading groupid, attach groupid to future add function
+        this.groupPageView.find("#openContactButton").attr("data-groupid",groupId);
+
+        const groupTable = $("#contacts");
+
+        try{
+            //Clear modal before requesting data
+            groupTable.empty();
+            const groupData = await this.groupRepository.getGroupContact(groupId);
+
+                for (let i = 0; i < groupData.length; i++) {
+                    let nextGroup = "<tr>";
+                    nextGroup += `<td>${groupData[i].firstname}</td>`;
+                    nextGroup += `<td>${groupData[i].surname}</td>`;
+                    nextGroup += `<td>${groupData[i].phonenumber}</td>`;
+                    nextGroup += `<td>${groupData[i].address}</td>`;
+                    nextGroup += `<td>${groupData[i].emailaddress}</td>`;
+                    nextGroup += `<td>            
+                                <button type="button" class="removeContact btn btn-danger" data-toggle="modal" data-target="#deleteContact" 
+                                data-contactId = "${groupData[i].contact_id}">Delete </button>
+                                </td>`;
+
+                    nextGroup += "</tr>";
+
+                    groupTable.append(nextGroup);
+
+                }
+
+        }catch (e) {
+            console.error(e);
+        }
     }
 
+    //Remove contact from group
+    async removeContact(event){
+        event.preventDefault();
+
+        const contactId = this.groupPageView.find(".removeContact").data("contactid");
+        console.log("Selecting contact to be removed " + contactId);
+
+        try{
+            const removeContactData = await this.groupRepository.removeContact(contactId);
+            console.log("Removed contact "+removeContactData);
+        }catch (e) {
+            console.error(e);
+        }finally {
+            await this.getContact( this.groupPageView.find("#inputGroupName").data("groupId"));
+        }
+    }
+
+    //Delete group
     async delete(event){
         event.preventDefault();
         const groupId = this.groupPageView.find("#inputGroupName").data("groupId");

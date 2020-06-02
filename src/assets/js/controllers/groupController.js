@@ -9,8 +9,6 @@ class GroupController {
         $.get("views/group.html")
             .done((htmlData) => this.setup(htmlData))
             .fail(() => this.error());
-
-
     }
 
 
@@ -23,6 +21,8 @@ class GroupController {
         this.createGroupView.find("#submit").on("click", (event) => this.onAddEvent(event))
 
         $("#addSelContact").on("click", (event) => this.addContact(event));
+
+
 
 
 
@@ -65,15 +65,17 @@ class GroupController {
                 console.log(`${name}`);
                 const groupId = await this.groupRepository.create(name, user_id);
                 console.log(groupId);
+                //assign id value to new variable
+                const newGroupId = groupId['id'];
 
+                console.log(newGroupId)
                 try{
                     //After creating group, update contact's group_id on the proper group
                     //variable of sel array
-                    // let contacts = ;
                     const sel = this.getArray();
                     for (let i = 0; i < sel.length ; i++) {
                         console.log(sel[i]);
-                        const contactUpdate = await this.groupRepository.contactAdd(groupId, sel[i]);
+                        const contactUpdate = await this.groupRepository.contactAdd(newGroupId, sel[i]);
                         console.log(contactUpdate);
                     }
 
@@ -89,7 +91,7 @@ class GroupController {
         }
     }
 
-
+    //Get function of selected contact's
     getArray(){
         let sel = $('input[type=checkbox]:checked').map(function(_, el) {
             return $(el).val();
@@ -98,46 +100,72 @@ class GroupController {
         return sel;
     }
 
-    addContact(event){
-        event.preventDefault();
-        console.log("Add contact button pressed");
-        //Get selected contact's id
+    //Remove contact
+    unCheck(id){
+        $('input:checkbox[value="'+id+ '"]').prop('checked',false);
+        console.log("remove this contact "+id);
+        this.addContact();
 
-         const contact = this.getArray();
+    }
+
+
+    async addContact(){
+        // event.preventDefault();
+
+        console.log("Add contact button pressed");
+
+        //Get selected contact's id
+        const contact = this.getArray();
+        const user_id = sessionManager.get("user_id");
+        const contactData = await this.groupRepository.getAllContact(user_id);
 
         try{
-
-
             let contactTable = $("#rowSel");
+
             contactTable.empty();
 
+            const idMatch = (id)=>{
+                for (let i = 0; i < contactData.length; i++) {
+                    console.log("id match " + id);
+                    if(id ==  contactData[i].contact_id){
+                        return contactData[i].firstname +" "+ contactData[i].surname;
+                    }else{
+                        console.log("no matches");
+                    }
+                }
+            }
+
+
+            //Need to display names instead of contact_id's
             for (let i = 0; i < contact.length; i++) {
-                let nextContact = "<li>";
-                nextContact += `<a>${contact[i]}</a>`;
-                nextContact += `<span class="close">\u00D7</span>`;
+                let name = idMatch(contact[i]);
+                let nextContact = "<li class='alert alert-primary'>";
+                nextContact += `<a >` + name+ `</a>`;
+                nextContact += `<button type="button"  data-contact_id="${contact[i]}" class="close" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>`;
                 nextContact += "</li>";
 
                 contactTable.append(nextContact);
             }
 
 
+            $(".close").on("click", (event) => this.unCheck(event.currentTarget.dataset.contact_id));
         }catch (e) {
             console.error(e);
         }
-
     }
 
     async getAllContacts(){
         const user_id = sessionManager.get("user_id");
-
         const contactList = $("#contacts");
+
         try{
             const contactData = await this.groupRepository.getAllContact(user_id);
 
-
             for(let i = 0; i < contactData.length; i++){
                 let nextContact = "<tr>";
-                nextContact += `<td><input type="checkbox" class=" boxform-check-input" id="conCheckBox"value="${contactData[i].contact_id}"><span class="checkmark"></span></td>"`;
+                nextContact += `<td><input type="checkbox"  id="conCheckBox" value="${contactData[i].contact_id}"> </div></td>"`;
                 nextContact += `<td data-contactFname = "${contactData[i].firstname}">${contactData[i].firstname}</td>`;
                 nextContact += `<td data-contactSurname = "${contactData[i].surname}">${contactData[i].surname}</td>`;
                 nextContact += `<td>${contactData[i].phonenumber}</td>`;
@@ -145,38 +173,6 @@ class GroupController {
 
                 contactList.append(nextContact);
             }
-
-            // this.createGroupView.find('#addSelContact').on("click", (event) =>{
-            //     event.preventDefault();
-            //     let sel = [];
-            //
-            //     $.each($('input[type=checkbox]:checked'), ()=>{
-            //         const contactName = event.currentTarget.dataset.contactFname;
-            //         const contactSurname = this.createGroupView.data("contactSurname", event.currentTarget.dataset.contactSurname);
-            //         sel.push( event.currentTarget.dataset.contactFname+ " "+ contactSurname );
-            //     });
-            //
-            //
-            //     console.log(sel);
-            //
-            //     try{
-            //
-            //         let contactTable = $("#selRow");
-            //         for (let i = 0; i < sel.length; i++) {
-            //             let nextContact = "<tr>";
-            //             nextContact += `<td>{$sel[i]}</td>;`
-            //
-            //             nextContact += "</tr>";
-            //
-            //             contactTable.append(nextContact);
-            //         }
-            //     }catch (e) {
-            //         console.error(e);
-            //     }
-            //
-            // })
-
-
         }catch (e) {
             console.error(e);
             contactList.text(e)

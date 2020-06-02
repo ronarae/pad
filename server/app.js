@@ -93,8 +93,8 @@ app.post("/contact", (req, res) => {
         }, (err) => res.status(badRequestCode).json({reason: err})
     );
 });
-// Groep toevoegen aan DB
 
+// Groep toevoegen aan DB
 app.post("/group", (req, res) => {
     db.handleQuery(connectionPool, {
         query: "INSERT INTO pad_bsc_8_dev.`group` (name, user_id) VALUES (?,?)",
@@ -109,8 +109,21 @@ app.post("/group", (req, res) => {
     );
     });
 
+//haal contacten op van een groep
+app.post("/groupPage/getCon", (req, res) => {
 
-//Haal contacten op
+    db.handleQuery(connectionPool, {
+            query: "SELECT * FROM contact WHERE group_id= ?",
+            values: [req.body.group_id]
+        }, (data) => {
+            //just give all data back as json
+            console.log("succesfull data");
+            res.status(httpOkCode).json(data);
+        }, (err) => res.status(badRequestCode).json({reason: err})
+    );
+});
+
+//Haal contacten op van user
 app.post("/group/get", (req, res) => {
 
     db.handleQuery(connectionPool, {
@@ -123,11 +136,39 @@ app.post("/group/get", (req, res) => {
         }, (err) => res.status(badRequestCode).json({reason: err})
     );
 });
+
+//Get ungrouped contact
+app.post("/groupPage/ungroup", (req, res) => {
+
+    db.handleQuery(connectionPool, {
+            query: "SELECT * FROM contact WHERE user_id = ? AND group_id IS NULL",
+            values: [req.body.user_id]
+        }, (data) => {
+            //just give all data back as json
+            console.log("succesfull data");
+            res.status(httpOkCode).json(data);
+        }, (err) => res.status(badRequestCode).json({reason: err})
+    );
+});
+
+//Update contact to null
+app.post("/group/remove", (req, res) => {
+
+    db.handleQuery(connectionPool, {
+            query: "UPDATE pad_bsc_8_dev.`contact` SET `group_id` = null WHERE `contact_id` =  ?",
+            values: [req.body.contact_id]
+        }, (data) => {
+            //just give all data back as json
+            res.status(httpOkCode).json(data);
+        }, (err) => res.status(badRequestCode).json({reason: err})
+    );
+});
+
 //Contact wijzigen in groep
 app.post("/group/update", (req, res) => {
-//spooky query, for some reason "= 'id'" error which is not present with the query underneath
-    db.handleQuery(connectionPool, {
-            query: "UPDATE contact SET group_id= ? WHERE contact_id = ?",
+
+   db.handleQuery(connectionPool, {
+            query: "UPDATE pad_bsc_8_dev.`contact` SET `group_id` = ? WHERE `contact_id` =  ?",
             values: [req.body.group_id, req.body.contact_id]
         }, (data) => {
             //just give all data back as json
