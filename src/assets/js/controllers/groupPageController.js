@@ -152,9 +152,9 @@ class GroupPageController {
                 nextGroup += `<td> 
                                 <a class= "groupEdit btn btn-info" data-toggle="modal" data-target="#editModal" 
                                 data-contact="${groupData[i]}" data-groupid = "${groupData[i].groupId}" id="editbutton" 
-                                data-name = "${groupData[i].name}" >View</a>             
+                                data-name = "${groupData[i].name}" >Overzicht</a>             
                                 <a class = "groupDelete btn btn-danger" data-toggle="modal" data-target="#deleteModal" 
-                                data-groupid = "${groupData[i].groupId}">Delete </a>`;
+                                data-groupid = "${groupData[i].groupId}">Verwijder </a>`;
 
                 nextGroup += "</tr>";
 
@@ -208,7 +208,7 @@ class GroupPageController {
                     nextGroup += `<td>${groupData[i].emailaddress}</td>`;
                     nextGroup += `<td>            
                                 <button type="button" class="removeContact btn btn-danger" data-toggle="modal" data-target="#deleteContact" 
-                                data-contactId = "${groupData[i].contact_id}">Delete </button>
+                                data-contactId = "${groupData[i].contact_id}">Verwijder </button>
                                 </td>`;
 
                     nextGroup += "</tr>";
