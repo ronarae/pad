@@ -86,17 +86,17 @@ class App {
 
             case CONTROLLER_REGISTER:
                 this.setCurrentController(name);
-                this.isLoggedIn(() => new RegisterController, () => new RegisterController());
+                this.isLoggedIn(() => new WelcomeController(), () => new RegisterController());
                 break;
                 
             case CONTROLLER_WELCOME:
                 this.setCurrentController(name);
-                this.isLoggedIn(() => new WelcomeController, () => new LoginController());
+                this.isLoggedIn(() => new WelcomeController(), () => new LoginController());
                 break;
 
             case CONTROLLER_PASSWORD:
                 this.setCurrentController(name);
-                this.isLoggedIn(() => new WelcomeController, () => new PasswordController());
+                this.isLoggedIn(() => new WelcomeController(), () => new PasswordController());
                 break;
 
             default:
