@@ -65,7 +65,11 @@ a#editbutton, a.groupDelete.btn.btn-danger{
     color: white;
 }
 
-
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
 
 
 

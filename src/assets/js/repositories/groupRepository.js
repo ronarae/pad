@@ -9,6 +9,11 @@ class GroupRepository {
 
     }
 
+    async getUngroup(user_id){
+        return await networkManager
+            .doRequest("/groupPage/ungroup", {user_id: user_id});
+    }
+
     async getAll(user_id) {
         return await networkManager
             .doRequest("/groupPage", {user_id: user_id});

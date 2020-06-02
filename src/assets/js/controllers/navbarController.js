@@ -36,6 +36,7 @@ class NavbarController {
         $(".sidebar").empty().append(this.sidebarView);
     }
 
+    //Show or hide tab's on logout
     handleNavLogout(){
 
         this.sidebarView.find(".name").hide()
@@ -49,6 +50,7 @@ class NavbarController {
        this.sidebarView.find("a[data-controller$='register']").show();
     }
 
+    //Show or hide tab's on login
     handleNavLogin(){
 
         this.sidebarView.find("a[data-controller$='login']").hide()

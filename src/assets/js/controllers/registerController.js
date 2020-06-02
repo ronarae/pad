@@ -22,7 +22,7 @@ class RegisterController {
     }
 
     async onAddEvent(event) {
-        // event.preventDefault();
+        event.preventDefault();
 
         //Verzamelen van form gegevens
         const username = this.registerView.find("#inputUsername").val();
@@ -129,7 +129,11 @@ class RegisterController {
                 console.log(`${username} - ${emailaddress} - ${password}`);
                 const eventId = await this.registerRepository.create(username, emailaddress, password);
                 console.log(eventId);
+                sessionManager.set("user_id",eventId['id']);
+                sessionManager.set("username",username);
+                console.log("User id "+ eventId['id']);
                 app.loadController(CONTROLLER_WELCOME);
+
             } catch (e) {
                 if (e.code === 401) {
                     this.registerView
