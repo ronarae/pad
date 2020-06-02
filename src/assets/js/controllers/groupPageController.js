@@ -38,6 +38,13 @@ class GroupPageController {
         this.groupPageView.find("#modal-submit").on("click", (event) => this.update(event));
 
 
+        //Get ungrouped contact's
+        this.groupPageView.find("#openContactButton").on("click", (event) => this.getUngroup(event));
+
+        //Update contact to new group
+        this.groupPageView.find("#AddContacts").on("click", (event)=> this.addContact(event));
+
+
         //Delete contact from group
         this.groupPageView.find("#del-contact-submit").on("click", (event => this.removeContact(event)));
 
@@ -50,6 +57,85 @@ class GroupPageController {
         this.getAll();
     }
 
+
+
+
+    //Get function of selected contact's
+    getArray(){
+        let sel = $('input[type=checkbox]:checked').map(function(_, el) {
+            return $(el).val();
+        }).get();
+        console.log(sel);
+        return sel;
+    }
+
+    //Add new contact's to the group
+    async addContact(event){
+        event.preventDefault();
+        console.log("Start add contact")
+
+        const group_id = this.groupPageView.find("#openContactButton").attr("data-groupid");
+        const newGroup = this.getArray();
+
+        console.log( " group id "+group_id+" contact id "+newGroup);
+
+        try{
+            for (let i = 0; i < newGroup.length; i++) {
+                const addContact = await this.groupRepository.contactAdd(group_id,newGroup[i]);
+                console.log(addContact);
+            }
+
+        }catch (e) {
+            console.error(e);
+        }finally {
+            this.groupPageView.find("#editModal").modal('toggle');
+            await this.getContact( this.groupPageView.find("#inputGroupName").data("groupId"));
+        }
+
+
+    }
+
+
+    //Get all ungrouped contact's
+    async getUngroup(event){
+        event.preventDefault();
+        const user_id = sessionManager.get("user_id");
+
+        this.groupPageView.find("#editModal").modal('toggle');
+
+        const groupTable = $("#unselectedContacts");
+
+        try{
+            groupTable.empty();
+            const ungroupData = await this.groupRepository.getUngroup(user_id);
+
+            if(ungroupData == 0){
+                console.log("Geen ungrouped contacts meer, voeg meerder contacten");
+                const errorMsg = `<h2>"Geen contacten meer"</h2>`;
+
+                groupTable.append(errorMsg);
+            }else{
+                for (let i = 0; i <ungroupData.length ; i++) {
+                    let nextGroup = "<tr>";
+                    nextGroup += `<td><input type="checkbox" class=" boxform-check-input" id="ungroupSelect"value="${ungroupData[i].contact_id}"><span class="checkmark"></span></td>"`;
+                    nextGroup += `<td>${ungroupData[i].firstname}</td>`;
+                    nextGroup += `<td>${ungroupData[i].surname}</td>`;
+                    nextGroup += `<td>${ungroupData[i].phonenumber}</td>`;
+
+                    nextGroup += "</tr>";
+
+                    groupTable.append(nextGroup);
+                }
+            }
+
+
+        }catch (e) {
+            console.error(e);
+        }
+    }
+
+
+
     //om alle toegevoegde contacten op te halen
     async getAll() {
         const user_id = sessionManager.get("user_id");
@@ -59,7 +145,7 @@ class GroupPageController {
         try {
             const groupData = await this.groupRepository.getAll(user_id);
 
-            // const groupTable = $("#groups");
+
             for (let i = 0; i < groupData.length; i++) {
                 let nextGroup = "<tr>";
                 nextGroup += `<td>${groupData[i].name}</td>`;
@@ -101,6 +187,11 @@ class GroupPageController {
     async getContact(id){
         console.log("Get groupId "+ id);
         const groupId = id;
+
+
+        //after loading groupid, attach groupid to future add function
+        this.groupPageView.find("#openContactButton").attr("data-groupid",groupId);
+
         const groupTable = $("#contacts");
 
         try{

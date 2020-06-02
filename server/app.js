@@ -93,8 +93,8 @@ app.post("/contact", (req, res) => {
         }, (err) => res.status(badRequestCode).json({reason: err})
     );
 });
-// Groep toevoegen aan DB
 
+// Groep toevoegen aan DB
 app.post("/group", (req, res) => {
     db.handleQuery(connectionPool, {
         query: "INSERT INTO pad_bsc_8_dev.`group` (name, user_id) VALUES (?,?)",
@@ -109,7 +109,7 @@ app.post("/group", (req, res) => {
     );
     });
 
-//haal contacten op van groep
+//haal contacten op van een groep
 app.post("/groupPage/getCon", (req, res) => {
 
     db.handleQuery(connectionPool, {
@@ -136,7 +136,20 @@ app.post("/group/get", (req, res) => {
         }, (err) => res.status(badRequestCode).json({reason: err})
     );
 });
-//Get contact 
+
+//Get ungrouped contact
+app.post("/groupPage/ungroup", (req, res) => {
+
+    db.handleQuery(connectionPool, {
+            query: "SELECT * FROM contact WHERE user_id = ? AND group_id IS NULL",
+            values: [req.body.user_id]
+        }, (data) => {
+            //just give all data back as json
+            console.log("succesfull data");
+            res.status(httpOkCode).json(data);
+        }, (err) => res.status(badRequestCode).json({reason: err})
+    );
+});
 
 //Update contact to null
 app.post("/group/remove", (req, res) => {
