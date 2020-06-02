@@ -111,7 +111,7 @@ class GroupPageController {
 
             if(ungroupData == 0){
                 console.log("Geen ungrouped contacts meer, voeg meerder contacten");
-                const errorMsg = `<h2>"Geen contacten meer"</h2>`;
+                const errorMsg = `<h2>Er zijn geen beschikbare contacten meer</h2>`;
 
                 groupTable.append(errorMsg);
             }else{
