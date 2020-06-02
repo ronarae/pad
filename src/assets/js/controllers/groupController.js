@@ -9,19 +9,29 @@ class GroupController {
         $.get("views/group.html")
             .done((htmlData) => this.setup(htmlData))
             .fail(() => this.error());
+
+
     }
+
+
 
     setup(htmlData) {
         //toevoegen html aan .content div
         this.createGroupView = $(htmlData);
 
         $(".content").empty().append(this.createGroupView);
-        this.createGroupView.find(".btn").on("click", (event) => this.onAddEvent(event))
+        this.createGroupView.find("#submit").on("click", (event) => this.onAddEvent(event))
+
+        $("#addSelContact").on("click", (event) => this.addContact(event));
+
+
+
+    this.getAllContacts();
     }
 
     async onAddEvent(event) { // om niet met callbacks te werken
 
-        // event.preventDefault();
+        event.preventDefault();
         //om bij een form niet te refreshen
 
         //verzamelen van form gegevens
@@ -55,6 +65,26 @@ class GroupController {
                 console.log(`${name}`);
                 const groupId = await this.groupRepository.create(name, user_id);
                 console.log(groupId);
+                //assign id value to new variable
+                const newGroupId = groupId['id'];
+
+                console.log(newGroupId)
+                try{
+                    //After creating group, update contact's group_id on the proper group
+                    //variable of sel array
+                    // let contacts = ;
+                    const sel = this.getArray();
+                    for (let i = 0; i < sel.length ; i++) {
+                        console.log(sel[i]);
+                        const contactUpdate = await this.groupRepository.contactAdd(newGroupId, sel[i]);
+                        console.log(contactUpdate);
+                    }
+
+                }catch (e) {
+                    console.error(e);
+                }
+
+
                 app.loadController(CONTROLLER_GROUP_PAGE);
             } catch (e) {
                 console.log(e);
@@ -62,10 +92,65 @@ class GroupController {
         }
     }
 
+    //Get function of selected contact's
+    getArray(){
+        let sel = $('input[type=checkbox]:checked').map(function(_, el) {
+            return $(el).val();
+        }).get();
+        console.log(sel);
+        return sel;
+    }
+
+    addContact(event){
+        event.preventDefault();
+
+        console.log("Add contact button pressed");
+
+        //Get selected contact's id
+         const contact = this.getArray();
+
+        try{
+            let contactTable = $("#rowSel");
+            contactTable.empty();
+            //Need to display names instead of contact_id's
+            for (let i = 0; i < contact.length; i++) {
+                let nextContact = "<li>";
+                nextContact += `<a>${contact[i]}</a>`;
+                nextContact += `<span class="close">\u00D7</span>`;
+                nextContact += "</li>";
+
+                contactTable.append(nextContact);
+            }
+        }catch (e) {
+            console.error(e);
+        }
+    }
+
+    async getAllContacts(){
+        const user_id = sessionManager.get("user_id");
+
+        const contactList = $("#contacts");
+        try{
+            const contactData = await this.groupRepository.getAllContact(user_id);
+
+
+            for(let i = 0; i < contactData.length; i++){
+                let nextContact = "<tr>";
+                nextContact += `<td><input type="checkbox" class=" boxform-check-input" id="conCheckBox"value="${contactData[i].contact_id}"><span class="checkmark"></span></td>"`;
+                nextContact += `<td data-contactFname = "${contactData[i].firstname}">${contactData[i].firstname}</td>`;
+                nextContact += `<td data-contactSurname = "${contactData[i].surname}">${contactData[i].surname}</td>`;
+                nextContact += `<td>${contactData[i].phonenumber}</td>`;
+                nextContact += "</tr>";
+
+                contactList.append(nextContact);
+            }
+        }catch (e) {
+            console.error(e);
+            contactList.text(e)
+        }
+    }
+
     error() {
        $(".content").html("Failed to load content")
     }
-
-// kijken of de naam al bestaat
-    // camel case gebruiken overal
 }

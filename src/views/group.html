@@ -1,5 +1,5 @@
 <div class="row justify-content-md-center">
-    <div class="col-sm-4 m-3">
+    <div class="col-sm-4 m-3 box-container">
         <h2 class="mb-3">Groep aanmaken</h2>
 
         <form class="login-form">
@@ -8,9 +8,48 @@
                 <input type="text" name="groupsname" class="form-control" id="inputGroupsName" aria-describedby="emailHelp" placeholder="Vul naam in" oninput="setCustomValidity('')">
             </div>
 
+            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#AddModal" >+ Voeg contact toe</button>
+
+            <ul id="rowSel">
+
+            </ul>
+            <a clas="hidden" data-hiddenContact="empty"></a>
             <div class="error mb-3 text-danger"></div>
 
-            <button type="submit" class="btn btn-primary">Groep aanmaken</button>
+            <button class="btn btn-primary" id="submit">Groep aanmaken</button>
         </form>
+    </div>
+</div>
+
+
+<div class="modal fade" id="AddModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Contacten selecteren</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Firstname</th>
+                        <th>Surname</th>
+                        <th>Phone number</th>
+                    </tr>
+                    </thead>
+                    <tbody id="contacts">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="addSelContact" >Voeg toe</button>
+            </div>
+        </div>
     </div>
 </div>
