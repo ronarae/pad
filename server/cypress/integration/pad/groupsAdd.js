@@ -1,8 +1,9 @@
-//  context: add group
+//  context: add group. @author Yazan Mousa
 describe("addGroup", () => {
     beforeEach(() => {
-
-        cy.visit("http://localhost:8080");
+        const session = {"username": "test"};
+        localStorage.setItem("session", JSON.stringify(session));
+        cy.visit("http://localhost:8080/#group");
     });
     //test validate group addition form
     it("Validate group addition form", () => {
@@ -10,7 +11,7 @@ describe("addGroup", () => {
         cy.get("#inputGroupsName").should("exist");
 
         //find the submit button , check if it exists
-        cy.get("#submit").should("exist");
+        cy.get("#groupSubmit").should("exist");
 
     });
 
@@ -23,11 +24,13 @@ describe("addGroup", () => {
 
         cy.get("#inputGroupsName").type("Boksen");
 
-        cy.get("#submit").click();
+        cy.get("#groupSubmit").click();
 
         cy.wait("@addGroup");
 
-        cy.get(".error").should("exist").should("contain", "ERROR");
+        cy.url().should("contain", "#welcome");
+
+        //cy.get(".error").should("exist").should("contain", "ERROR");
 
 
 
