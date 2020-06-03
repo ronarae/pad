@@ -58,7 +58,7 @@ class ContactPageController {
                                 data-contactAddres = "${contactData[i].address}" data-contactNum="${contactData[i].phonenumber}" 
                                 data-contactMail="${contactData[i].emailaddress}" data-contactid = "${contactData[i].contact_id}" 
                                 id="editbutton"  href="">Bewerk</a>
-                                <a class="deleteButton btn btn-danger " data-toggle="modal" data-contactid= "${contactData[i].contact_id}" data-target="#deluser_modal" href="#">Verwijder</a>
+                                <a class="deleteButton btn btn-danger " data-toggle="modal" data-contactid= "${contactData[i].contact_id}" data-target="#deluser_modal" href="#" id="deleteButton">Verwijder</a>
                                 </td>`;
 
                 nextContact += "</tr>";
