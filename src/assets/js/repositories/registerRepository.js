@@ -11,4 +11,6 @@ class registerRepository {
                 password: password
             });
     }
+
+    asyn
 }
