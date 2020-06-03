@@ -15,7 +15,7 @@ class NetworkManager {
         const json = JSON.stringify(data);
 
         //TODO: for requests on same host - server is always same host - validate if its best solution
-        const serverPort = 3000;
+        const serverPort = 8080;
         const baseUrl = `${location.protocol}//${location.hostname}:${serverPort}`;
 
         const url = baseUrl + route;
