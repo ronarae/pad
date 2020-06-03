@@ -4,58 +4,54 @@ describe("Group", () => {
     //Run before each test in this context
     beforeEach(() => {
         //Go to the specified URL
-        cy.visit("http://localhost:8080/#login");
-    });
-
-    //Test: Validate login form
-    it("Validate login form", () => {
-        //Find the field for the username, check if it exists.
-        cy.get("#inputUsername").should("exist");
-        //Find the field for the password, check if it exists.
-        cy.get("#inputPassword").should("exist");
-        //Find the button to login, check if it exists.
-        cy.get(".login-form button").should("exist");
+        const session = {"username": "test", "user_id": 5};
+        localStorage.setItem("session", JSON.stringify(session));
+        cy.visit("http://localhost:8080/#groupPage");
     });
 
     //Test: Successful login
     it("Successful login", () => {
-        // Start a fake server
+        // // Start a fake server
         cy.server();
-        // Add a stub with the URL /user/login as a POST
-        // Respond with a JSON-object when requested
-        // Give the stub the alias: @login
-        cy.route("POST", "/user/login", {"username": "test"}).as("login");
-        //Find the field for the username and type the text "test".
-        cy.get("#inputUsername").type("test");
-        //Find the field for the password and type the text"test".
-        cy.get("#inputPassword").type("test");
-        //Find the button to login and click it.
-        cy.get(".login-form button").click();
-        //Wait for the @login-stub to be called by the click-event.
-        cy.wait("@login");
 
-        //The @login-stub is called, check the contents of the incoming request.
-        cy.get("@login").should((xhr) => {
-            //The username should match what we typed earlier
-            expect(xhr.request.body.username).equals("test");
-            // The password should match what we typed earlier
-            expect(xhr.request.body.password).equals("test");
-        });
 
-        cy.wait(2000)
 
-        cy.url().should("contain", "#welcome");
+        cy.get('.navbar-nav').contains('Groepen').click();
+
+
     });
 
 
 
     // Test: navigate to groupPage
     it("groupPage navigation", () => {
-        cy.get('.navbar-nav').contains('Groepen').click()
-        // After a successful login, the URL should now contain #welcome.
-
+        cy.server();
+        cy.visit("http://localhost:8080/#groupPage");
         cy.url().should("contain", "#groupPage");
+        cy.route("POST", "/groupPage", {user_id: "5"}).as("get");
+        cy.wait("@get");
+
+        cy.get("@get").should((xhr) => {
+            //The user_id should match what we typed earlier
+            expect(xhr.request.body.user_id).equals(5);
+        });
+
+
+        context("Load data",()=>{
+            cy.get('#groups td')
+                .should('have.length', 1)
+                .and('contain','boodschappen');
+
+
+            cy.route('GET', '/groupPage', {
+                user_id: 5
+            });
+        });
+
     });
+
+
+    //Test: finding user
 
 
 });
