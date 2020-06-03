@@ -1,6 +1,7 @@
 //  context: add group
 describe("addGroup", () => {
     beforeEach(() => {
+
         cy.visit("http://localhost:8080");
     });
     //test validate group addition form
