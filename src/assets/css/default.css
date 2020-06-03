@@ -71,6 +71,10 @@ ul {
     padding: 0;
 }
 
+div#editModal.modal.fade{
+    display: table;
+}
+
 
 
 
