@@ -18,7 +18,7 @@ class GroupController {
         this.createGroupView = $(htmlData);
 
         $(".content").empty().append(this.createGroupView);
-        this.createGroupView.find("#submit").on("click", (event) => this.onAddEvent(event))
+        this.createGroupView.find("#groupSubmit").on("click", (event) => this.onAddEvent(event))
 
         $("#addSelContact").on("click", (event) => this.addContact(event));
 

@@ -57,8 +57,8 @@ class ContactPageController {
                                 data-contactFName = "${contactData[i].firstname}" data-contactLName = "${contactData[i].surname}" 
                                 data-contactAddres = "${contactData[i].address}" data-contactNum="${contactData[i].phonenumber}" 
                                 data-contactMail="${contactData[i].emailaddress}" data-contactid = "${contactData[i].contact_id}" 
-                                id="editbutton"  href="">Edit</a>
-                                <a class="deleteButton btn btn-danger " data-toggle="modal" data-contactid= "${contactData[i].contact_id}" data-target="#deluser_modal" href="#">Delete</a>
+                                id="editbutton"  href="">Bewerk</a>
+                                <a class="deleteButton btn btn-danger " data-toggle="modal" data-contactid= "${contactData[i].contact_id}" data-target="#deluser_modal" href="#">Verwijder</a>
                                 </td>`;
 
                 nextContact += "</tr>";
