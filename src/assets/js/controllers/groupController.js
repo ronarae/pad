@@ -109,8 +109,8 @@ class GroupController {
     }
 
 
-    async addContact(){
-        // event.preventDefault();
+    async addContact(event){
+        event.preventDefault();
 
         console.log("Add contact button pressed");
 

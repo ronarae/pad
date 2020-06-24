@@ -259,7 +259,7 @@ class GroupPageController {
 
     //to be fixed -rona
     async update(event) {
-        // event.preventDefault();
+        event.preventDefault();
         // console.log("start update");
         const groupId = this.groupPageView.find("#inputGroupName").data("groupId");
         // console.log(groupId + " hello");

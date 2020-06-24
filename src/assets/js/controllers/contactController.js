@@ -22,7 +22,7 @@ class ContactController {
     }
 
     async onAddEvent(event) {
-        // event.preventDefault();
+        event.preventDefault();
 
         //Verzamelen van form gegevens
         const firstname = this.contactView.find("#inputFirstname").val();
