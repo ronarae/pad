@@ -53,14 +53,14 @@ class ContactPageController {
                 nextContact += `<td>${contactData[i].address}</td>`;
                 nextContact += `<td>${contactData[i].emailaddress}</td>`;
                 nextContact += `<td>${contactData[i].phonenumber}</td>`;
-                nextContact += `<td>${contactData[i].group_id}</td>`;
+                nextContact += `<td>${contactData[i].name}</td>`;
                 nextContact += `<td><a class="editButton btn btn-success " data-toggle="modal" data-target="#editModal" 
                                 data-contactFName = "${contactData[i].firstname}" 
                                 data-contactLName = "${contactData[i].surname}" 
                                 data-contactAddres = "${contactData[i].address}" 
                                 data-contactNum="${contactData[i].phonenumber}" 
                                 data-contactMail="${contactData[i].emailaddress}" 
-                                data-contactGroup="${contactData[i].group_id}" 
+                                data-contactGroup="${contactData[i].name}" 
                                 data-contactid = "${contactData[i].contact_id}" 
                                 id="editbutton"  href="">Bewerken</a>
                                 <a class="deleteButton btn btn-danger " data-toggle="modal" data-contactid= "${contactData[i].contact_id}" data-target="#deluser_modal" href="#" id="deleteButton">Verwijder</a>
@@ -109,9 +109,12 @@ class ContactPageController {
         const id = this.contactPageView.find("#inputFirstname").data("contactId");
         const firstname = this.contactPageView.find("#inputFirstname").val();
         const surname = this.contactPageView.find("#inputSurname").val();
-        const phonenumber = this.contactPageView.find("#inputPhonenumber").val();
-        const emailaddress = this.contactPageView.find("#inputEmailaddress").val();
         const address = this.contactPageView.find("#inputAddress").val();
+        const emailaddress = this.contactPageView.find("#inputEmailaddress").val();
+        const phonenumber = this.contactPageView.find("#inputPhonenumber").val();
+        const group = this.contactPageView.find("#inputPhonenumber").val();
+
+
 
 
         //Error strings
