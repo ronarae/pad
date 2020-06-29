@@ -53,11 +53,16 @@ class ContactPageController {
                 nextContact += `<td>${contactData[i].address}</td>`;
                 nextContact += `<td>${contactData[i].emailaddress}</td>`;
                 nextContact += `<td>${contactData[i].phonenumber}</td>`;
+                nextContact += `<td>${contactData[i].group_id}</td>`;
                 nextContact += `<td><a class="editButton btn btn-success " data-toggle="modal" data-target="#editModal" 
-                                data-contactFName = "${contactData[i].firstname}" data-contactLName = "${contactData[i].surname}" 
-                                data-contactAddres = "${contactData[i].address}" data-contactNum="${contactData[i].phonenumber}" 
-                                data-contactMail="${contactData[i].emailaddress}" data-contactid = "${contactData[i].contact_id}" 
-                                id="editbutton"  href="">Bewerk</a>
+                                data-contactFName = "${contactData[i].firstname}" 
+                                data-contactLName = "${contactData[i].surname}" 
+                                data-contactAddres = "${contactData[i].address}" 
+                                data-contactNum="${contactData[i].phonenumber}" 
+                                data-contactMail="${contactData[i].emailaddress}" 
+                                data-contactGroup="${contactData[i].group_id}" 
+                                data-contactid = "${contactData[i].contact_id}" 
+                                id="editbutton"  href="">Bewerken</a>
                                 <a class="deleteButton btn btn-danger " data-toggle="modal" data-contactid= "${contactData[i].contact_id}" data-target="#deluser_modal" href="#" id="deleteButton">Verwijder</a>
                                 </td>`;
 
@@ -73,6 +78,7 @@ class ContactPageController {
                     this.contactPageView.find("#inputPhonenumber").val(event.currentTarget.dataset.contactnum);
                     this.contactPageView.find("#inputEmailaddress").val(event.currentTarget.dataset.contactmail);
                     this.contactPageView.find("#inputAddress").val(event.currentTarget.dataset.contactaddres);
+                    this.contactPageView.find("#inputAddress").val(event.currentTarget.dataset.contactgroup);
                     this.contactPageView.find("#inputFirstname").data("contactId", event.currentTarget.dataset.contactid);
 
                     console.log("Naam "+event.currentTarget.dataset.contactfname);

@@ -3,14 +3,15 @@ class ContactRepository {
         this.route = "/contact";
     }
 
-    async create(firstname, surname, phonenumber, emailaddress, address, user_id) {
+    async create(firstname, surname, phonenumber, emailaddress, address, group_id, user_id) {
         return await networkManager
             .doRequest(this.route, {
                 firstname: firstname,
                 surname: surname,
+                address: address,
                 phonenumber: phonenumber,
                 emailaddress: emailaddress,
-                address: address,
+                group: group_id,
                 user_id: user_id
             });
     }
@@ -20,14 +21,15 @@ class ContactRepository {
             .doRequest("/contactPage", {user_id: user_id});
     }
 
-    async update(firstname, surname, address, emailaddress, phonenumber,id){
+    async update(firstname, surname, address, emailaddress, phonenumber, group, id){
         return await networkManager
             .doRequest("/contactPage/update", {
                 firstname: firstname,
                 surname: surname,
-                phonenumber: phonenumber,
-                emailaddress: emailaddress,
                 address: address,
+                emailaddress: emailaddress,
+                phonenumber: phonenumber,
+                group: group,
                 id: id
             });
     }
