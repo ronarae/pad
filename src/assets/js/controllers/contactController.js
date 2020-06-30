@@ -6,6 +6,7 @@
 class ContactController {
     constructor() {
         this.contactRepository = new ContactRepository;
+        this.groupRepository = new GroupRepository();
 
         $.get("views/contact.html")
             .done((htmlData) => this.setup(htmlData))
@@ -30,6 +31,7 @@ class ContactController {
         const phonenumber = this.contactView.find("#inputPhonenumber").val();
         const emailaddress = this.contactView.find("#inputEmailaddress").val();
         const address = this.contactView.find("#inputAddress").val();
+        const groupsname = this.contactView.find("#inputGroup").val();
         const user_id = sessionManager.get("user_id");
 
         //Error strings
@@ -97,18 +99,37 @@ class ContactController {
         } else {
             try { //Send to database
                 event.preventDefault();
+
+                //groep creeren
+                console.log(`${groupsname}`);
+                const groupId = await this.groupRepository.create(groupsname, user_id);
+
+                //Deze werken niet helemaal
+                console.log("groupid data" + groupId[0]);
+                //assign id value to new variable
+                const newGroupName = groupId['name'];
+                console.log("Groepsnaam " + newGroupName);
+
+                try {
                 console.log(`${firstname} - ${surname} - ${phonenumber} - ${emailaddress} - ${address}`);
                 const eventId = await this.contactRepository.create(firstname, surname, phonenumber, emailaddress, address, user_id);
                 console.log(eventId);
                 app.loadController(CONTROLLER_CONTACT_PAGE);
             } catch (e) {
                 console.log(e);
-            }
+                }
+            } catch (e) {
+                console.log(e);
+
         }
+    }
+
     }
 
     error() {
         $(".content").html("Failed to load content")
     }
 }
+
+
 

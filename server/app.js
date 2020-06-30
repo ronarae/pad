@@ -78,12 +78,14 @@ app.post("/register", (req, res) => {
     );
 });
 
+
+
 //Contact toevoegen aan DB
 app.post("/contact", (req, res) => {
 
     db.handleQuery(connectionPool, {
-        query: "INSERT INTO contact(firstname, surname, address, emailaddress, phonenumber, name, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        values: [req.body.firstname, req.body.surname, req.body.address, req.body.emailaddress, req.body.phonenumber, req.body.name, req.body.user_id]
+        query: "INSERT INTO contact(firstname, surname, address, emailaddress, phonenumber, groupname, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        values: [req.body.firstname, req.body.surname, req.body.address, req.body.emailaddress, req.body.phonenumber, req.body.groupname, req.body.user_id]
     }, (data) => {
             if(data.insertId) {
                 res.status(httpOkCode).json({id: data.insertId});

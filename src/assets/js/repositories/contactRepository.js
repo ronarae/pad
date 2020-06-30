@@ -11,8 +11,8 @@ class ContactRepository {
                 address: address,
                 phonenumber: phonenumber,
                 emailaddress: emailaddress,
-                group: group_id,
-                user_id: user_id
+                user_id: user_id,
+                group: groupname
             });
     }
 
