@@ -180,8 +180,6 @@ app.post("/group/update", (req, res) => {
 });
 
 
-
-
 // Contacten weergeven
 app.post("/contactPage", (req, res) => {
 
