@@ -79,7 +79,6 @@ app.post("/register", (req, res) => {
 });
 
 
-
 //Contact toevoegen aan DB
 app.post("/contact", (req, res) => {
 
