@@ -78,7 +78,7 @@ class ContactPageController {
                     this.contactPageView.find("#inputPhonenumber").val(event.currentTarget.dataset.contactnum);
                     this.contactPageView.find("#inputEmailaddress").val(event.currentTarget.dataset.contactmail);
                     this.contactPageView.find("#inputAddress").val(event.currentTarget.dataset.contactaddres);
-                    this.contactPageView.find("#inputAddress").val(event.currentTarget.dataset.contactgroup);
+                    this.contactPageView.find("#inputGroup").val(event.currentTarget.dataset.contactgroup);
                     this.contactPageView.find("#inputFirstname").data("contactId", event.currentTarget.dataset.contactid);
 
                     console.log("Naam "+event.currentTarget.dataset.contactfname);

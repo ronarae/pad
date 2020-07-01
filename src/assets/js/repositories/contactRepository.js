@@ -3,7 +3,7 @@ class ContactRepository {
         this.route = "/contact";
     }
 
-    async create(firstname, surname, phonenumber, emailaddress, address, group_id, user_id) {
+    async create(firstname, surname, phonenumber, emailaddress, address, user_id, groupsname) {
         return await networkManager
             .doRequest(this.route, {
                 firstname: firstname,
@@ -12,7 +12,7 @@ class ContactRepository {
                 phonenumber: phonenumber,
                 emailaddress: emailaddress,
                 user_id: user_id,
-                group: groupname
+                group: groupsname
             });
     }
 

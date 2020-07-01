@@ -3,6 +3,7 @@
  * @author Niels Roeleveld & Wing Fung Lam
  */
 
+
 class ContactController {
     constructor() {
         this.contactRepository = new ContactRepository;
@@ -112,7 +113,7 @@ class ContactController {
 
                 try {
                 console.log(`${firstname} - ${surname} - ${phonenumber} - ${emailaddress} - ${address}`);
-                const eventId = await this.contactRepository.create(firstname, surname, phonenumber, emailaddress, address, user_id);
+                const eventId = await this.contactRepository.create(firstname, surname, phonenumber, emailaddress, address, user_id,groupsname);
                 console.log(eventId);
                 app.loadController(CONTROLLER_CONTACT_PAGE);
             } catch (e) {
