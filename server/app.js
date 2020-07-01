@@ -83,9 +83,9 @@ app.post("/register", (req, res) => {
 app.post("/contact", (req, res) => {
 
     db.handleQuery(connectionPool, {
-        query: "INSERT INTO contact(firstname, surname, address, emailaddress, phonenumber, groupname, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        values: [req.body.firstname, req.body.surname, req.body.address, req.body.emailaddress, req.body.phonenumber, req.body.groupname, req.body.user_id]
-    }, (data) => {
+            query: "INSERT INTO pad_bsc_8_dev.`contact` (firstname, surname, address, emailaddress, phonenumber, user_id, name) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            values: [req.body.firstname, req.body.surname, req.body.address, req.body.emailaddress, req.body.phonenumber, req.body.user_id, req.body.group]
+        }, (data) => {
             if(data.insertId) {
                 res.status(httpOkCode).json({id: data.insertId});
             } else {
@@ -98,9 +98,9 @@ app.post("/contact", (req, res) => {
 // Groep toevoegen aan DB
 app.post("/group", (req, res) => {
     db.handleQuery(connectionPool, {
-        query: "INSERT INTO pad_bsc_8_dev.`group` (name, user_id) VALUES (?,?)",
-        values: [req.body.name, req.body.user_id]
-    }, (data) => {
+            query: "INSERT INTO pad_bsc_8_dev.`group` (name, user_id) VALUES (?,?)",
+            values: [req.body.name, req.body.user_id]
+        }, (data) => {
             if (data.insertId) {
                 res.status(httpOkCode).json({id: data.insertId});
             } else {
@@ -108,7 +108,7 @@ app.post("/group", (req, res) => {
             }
         }, (err) => res.status(badRequestCode).json({reason: err})
     );
-    });
+});
 
 //haal contacten op van een groep
 app.post("/groupPage/getCon", (req, res) => {
@@ -132,7 +132,7 @@ app.post("/group/get", (req, res) => {
             values: [req.body.user_id]
         }, (data) => {
             //just give all data back as json
-        console.log("succesfull data");
+            console.log("succesfull data");
             res.status(httpOkCode).json(data);
         }, (err) => res.status(badRequestCode).json({reason: err})
     );
@@ -168,7 +168,7 @@ app.post("/group/remove", (req, res) => {
 //Contact wijzigen in groep
 app.post("/group/update", (req, res) => {
 
-   db.handleQuery(connectionPool, {
+    db.handleQuery(connectionPool, {
             query: "UPDATE pad_bsc_8_dev.`contact` SET `group_id` = ? WHERE `contact_id` =  ?",
             values: [req.body.group_id, req.body.contact_id]
         }, (data) => {
@@ -177,7 +177,6 @@ app.post("/group/update", (req, res) => {
         }, (err) => res.status(badRequestCode).json({reason: err})
     );
 });
-
 
 // Contacten weergeven
 app.post("/contactPage", (req, res) => {
@@ -232,7 +231,6 @@ app.post("/groupPage", (req, res) => {
 });
 
 // Groep verwijderen
-
 app.post("/groupPage/delete", (req, res) => {
 
     db.handleQuery(connectionPool, {
