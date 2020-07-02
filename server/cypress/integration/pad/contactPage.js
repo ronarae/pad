@@ -1,4 +1,4 @@
-//Context: contactPage
+//Context: contactPage incl groep
 describe("contactPage", () => {
     //Run before each test in this context
     beforeEach(() => {
@@ -31,6 +31,9 @@ describe("contactPage", () => {
         //Find the field for the phonenumber, check if it exists.
         cy.get("#inputPhonenumber").should("exist");
 
+        //Find the field for the gorup, check if it exists.
+        cy.get("#inputGroup").should("exist");
+
         //Find the field for the button edit, check if it exists.
         cy.get("#editModal").should("exist");
 
@@ -50,19 +53,22 @@ describe("contactPage", () => {
         // Respond with a JSON-object when requested
         // Give the stub the alias: @contactPage
         // Find the field for the firstname, and type the text "testEditFirstname".
-        cy.get("#inputFirstname").type("testEditFirstname");
+        cy.get("#inputFirstname").type("testPietje");
 
         // Find the field for the firstname, and type the text "testEditSurname".
-        cy.get("#inputSurname").type("testEditSurname");
+        cy.get("#inputSurname").type("testPuk");
 
         // Find the field for the firstname, and type the text "123456789".
-        cy.get("#inputPhonenumber").type("123456789");
+        cy.get("#inputPhonenumber").type("0612345678");
 
         // Find the field for the firstname, and type the text "testEditEm@ailaddress"
-        cy.get("#inputEmailaddress").type("testEditEm@ailaddress");
+        cy.get("#inputEmailaddress").type("testPiet@Puk.nl");
 
         // Find the field for the firstname, and type the text "testEditAdres"
-        cy.get("#inputAddress").type("testEditAdres");
+        cy.get("#inputAddress").type("testPietstraat");
+
+        // Find the field for the firstname, and type the text "testEditAdres"
+        cy.get("#inputGroup").type("testPietgroep");
 
         //Find the button to save and click it.
         cy.get("#modal-submit").click();
